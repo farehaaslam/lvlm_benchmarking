@@ -1,0 +1,303 @@
+Questions,Model A,Model B
+ What is the fundamental difference between throughput and latency? ,"The fundamental difference lies in what each metric measures regarding system performance (1:37):
+
+* **Throughput** is a measure of **volume** (0:00). It defines how many tasks, operations, or requests a system can handle or complete within a specific unit of time (e.g., requests per second) (0:16).
+* **Latency** is a measure of **time delay** (0:52). It defines the total time it takes for a single individual task or request to go from start to finish (e.g., the time between a user click and the resulting response) (0:54).
+
+In short, while **throughput** focuses on the *quantity* of work processed over time, **latency** focuses on the *speed* or responsiveness of an individual operation (1:39-1:45).","The fundamental difference is that **throughput measures quantity (how much work is done), while latency measures time (how long a single task takes).**
+
+To help you keep these straight, here is the breakdown based on the lecture:
+
+### 1. Throughput: The ""Volume""
+Think of throughput as the **capacity** of a system. It is the number of tasks, requests, or operations a system can handle in a specific window of time (00:00).
+*   **Analogy:** If you are at a factory, throughput is the number of widgets coming off the assembly line every hour (00:00).
+*   **Measurement:** It is usually measured in units per second (e.g., requests per second) or transactions per minute (00:00).
+*   **Goal:** You focus on throughput when your goal is to maximize the total amount of work completed over a period of time (01:38).
+*   **Example:** A data pipeline that collects logs from millions of devices. You want to move as much data as possible, even if it doesn't arrive instantly (02:08).
+
+### 2. Latency: The ""Delay""
+Think of latency as the **responsiveness** of a system. It is the time delay it takes for a single operation or request to complete (00:52).
+*   **Analogy:** Latency is the time between you clicking a button and seeing the response on your screen (00:52).
+*   **Measurement:** It is measured in units of time, typically milliseconds (ms) or seconds (00:52).
+*   **Goal:** You focus on latency when responsiveness is critical and delays directly impact the user experience (02:08).
+*   **Example:** A video streaming service. When you hit ""play,"" you want the video to start immediately. Low latency ensures a smooth, real-time experience (02:08).
+
+### Summary Comparison
+The lecturer notes that these two are often at odds (01:38). A system might have very high throughput (handling millions of requests) but also high latency (each request takes a long time to finish) because the system is overloaded.
+
+| Feature | Throughput | Latency |
+| :--- | :--- | :--- |
+| **Core Concept** | Volume / Quantity | Time / Delay |
+| **Question it asks** | ""How much can we do at once?"" | ""How fast is one task?"" |
+| **Key Metric** | Units per second/minute | Milliseconds (ms) |
+| **Best for...** | Batch processing, data pipelines | User interactions, real-time apps |"
+Why are high throughput and low latency often in conflict? ,"High throughput and low latency are often at odds because a system pushed to its limit to process a massive volume of work can struggle to respond to individual requests quickly (1:46-1:53).
+
+* **Throughput focus:** Prioritizes moving as much data as possible through the system. This often involves batching tasks to maximize efficiency, which naturally introduces a waiting period for individual requests.
+* **Latency focus:** Prioritizes immediate responsiveness for every single task. A system optimized for low latency needs to process each request as soon as it arrives, which may prevent it from performing the bulk processing necessary to reach high throughput levels.
+
+When a system handles too many tasks at once, it can create queues or bottlenecks, leading to increased delays for each individual operation (1:51).","This excerpt directly addresses your question. The lecturer notes that high throughput and low latency are often at odds because a system handling a massive volume of work simultaneously can create delays for individual tasks (00:52, 01:38).
+
+To understand why this conflict exists, it helps to think about **queuing** and **resource saturation**.
+
+### The Core Conflict: Queuing
+When you aim for **high throughput**, you are trying to maximize the total amount of work finished in a given time. To do this, you often need to ""fill the pipe""—meaning you want the system to be working at 100% capacity at all times.
+
+However, when a system is running at maximum capacity, any new request that arrives has to wait for a ""slot"" to open up. This waiting time is added directly to the **latency** of that specific request.
+
+### A Concrete Example: The Coffee Shop
+Imagine a coffee shop:
+
+1.  **Optimizing for Low Latency:** The goal is for every customer to get their coffee as fast as possible. The shop might only have one barista working. If only one person is in line, they get their coffee in 2 minutes. The latency is low, but the throughput is also low (the shop can only serve a few people per hour).
+2.  **Optimizing for High Throughput:** The goal is to serve as many people as possible per hour. The shop hires five baristas and keeps them constantly busy. Because they are processing so many orders at once, there is almost always a line. Even if the baristas are fast, a customer might have to wait 10 minutes in line before their drink even starts being made. 
+
+**The Result:** The shop has achieved **high throughput** (they serve hundreds of people an hour), but the **latency** for the individual customer has increased (they waited 10 minutes instead of 2).
+
+### Summary of the Trade-off
+*   **High Throughput** often requires **Batching**: Grouping many small tasks together to process them all at once (like a data pipeline aggregating logs, mentioned at 02:08). This is efficient for the system but makes individual tasks wait.
+*   **Low Latency** requires **Immediacy**: Processing a task the moment it arrives (like a video stream starting instantly, mentioned at 02:08). This is great for the user but can be less efficient for the system because it's harder to ""batch"" these requests.
+
+In short: If you try to cram too much work into the system at once to increase throughput, you create a ""traffic jam"" that increases the time it takes for any single piece of work to get through."
+ How can I measure latency for my own applications? ,"Measuring latency is essential to understanding your application's responsiveness. As mentioned in the video, latency represents the **time delay** for a single request to complete (0:52). To effectively measure this for your own applications, consider these approaches:
+
+* **Application Performance Monitoring (APM) Tools:** These tools provide deep insights into your code execution time, database queries, and external API calls. Popular options include *Datadog*, *New Relic*, and *Better Stack*.
+* **Client-Side Measurement:** You can use browser tools like *Chrome DevTools* to see the latency a user actually experiences from their device, including network round-trip times.
+* **Synthetic Monitoring:** By using services that ping your endpoints from various geographic locations, you can measure how latency varies for users in different regions.
+* **Percentile Metrics:** Instead of relying only on ""average"" latency, look at percentiles (e.g., p95 or p99). This helps you identify ""outlier"" delays that might only affect a small percentage of users but still cause significant frustration.
+
+In addition to these tools, ensure you are measuring the entire **round-trip time**—from the moment a request is sent until the response is fully processed and received.","This excerpt is **partly relevant**. It provides a clear definition of latency and mentions that tools exist to measure it, but it does not list specific tools or methods for measuring latency in your own applications.
+
+### Understanding Latency
+Based on the lecture, **latency** is defined as the ""time delay"" or the ""time it takes for a single operation or request to complete"" (00:52). For example, if you click a button and wait for a response, that waiting period is the latency. The goal in most applications is to minimize this delay to ensure a smooth user experience (00:52).
+
+### How to Measure Latency
+Since the lecture doesn't specify the ""how,"" I will explain the standard ways to measure this for your own projects. Measuring latency essentially boils down to calculating the difference between a **start time** and an **end time**.
+
+Depending on what kind of application you are building, there are three common ways to do this:
+
+#### 1. Application-Level Timing (Code-based)
+If you want to know how long a specific function or database query takes, you can wrap that code in a timer. 
+
+**Example (Pseudo-code):**
+```python
+start_time = get_current_time()  # Record the start
+
+# The operation you want to measure (e.g., fetching data)
+perform_database_query() 
+
+end_time = get_current_time()     # Record the end
+latency = end_time - start_time   # The difference is your latency
+print(f""Query took: {latency} ms"")
+```
+*This is the best way to find ""bottlenecks"" in your specific code.*
+
+#### 2. Network-Level Measurement
+If you want to know the delay caused by the internet or your network infrastructure, you can use standard command-line tools:
+*   **Ping:** Measures the round-trip time (RTT) for a packet to reach a server and come back.
+*   **Traceroute:** Shows the path a packet takes and the latency at each ""hop"" (router) along the way.
+
+#### 3. Web & API Monitoring (Tools)
+If you are building a web application, you don't always have to write manual timers. You can use:
+*   **Browser DevTools:** Open your site, go to the ""Network"" tab, and refresh. It will show you the ""Time"" or ""Latency"" for every image, script, and API call your page makes.
+*   **APM Tools (Application Performance Monitoring):** Professional tools like New Relic, Datadog, or Prometheus automatically track latency for every request your server handles and can alert you if the latency spikes.
+
+**Summary Tip:** To start, I recommend using **Browser DevTools** (if it's a website) or **simple timestamps** in your code (if it's a backend script) to get a baseline of your current latency."
+What real-world examples illustrate high throughput systems? ,"High throughput systems are designed to process a large volume of tasks or data over a set period. As highlighted in the video, a primary example is a **data pipeline that aggregates logs from millions of devices** (2:19), where the goal is to collect as much information as possible efficiently.
+
+Beyond the video, several other real-world scenarios rely on high-throughput architectures:
+
+* **Financial Trading & Banking:** Stock exchanges and payment networks must handle massive numbers of transactions per second to ensure market stability and process global payments.
+* **Drug Discovery (High-Throughput Screening):** Pharmaceutical companies use automated robotic systems to test thousands of chemical compounds against biological targets simultaneously to speed up the development of new medicines.
+* **High-Performance Computing (HPC):** Fields like genomic sequencing, oil and gas exploration, and machine learning model training require systems that can compute and analyze petabytes of data in parallel.
+* **Manufacturing Automation:** Assembly lines that package products or assemble parts at extremely high speeds rely on high-throughput design to maintain productivity levels.
+* **Large-Scale Web Services:** Services like *Netflix* or major web servers process millions of requests or data traversals every second to serve content to a global audience.","The lecture excerpt provides several specific examples of systems where high throughput is the primary goal.
+
+In these systems, the objective is to **maximize the amount of work done over a given amount of time** (01:41), rather than minimizing the time it takes for a single task to complete.
+
+Here are the real-world examples mentioned in the lecture:
+
+*   **Data Pipelines:** A specific example given is a data pipeline that aggregates logs from millions of devices (01:38, 02:08). In this case, the goal is to collect as much data as possible. It is not necessary for every single log entry to arrive instantaneously; what matters is that the system can handle the massive volume of data.
+*   **Batch Processing Systems:** These are systems where you want to process large amounts of data in groups (01:38).
+*   **Servers handling large volumes of requests:** Systems designed to manage a high volume of requests simultaneously (02:17).
+
+**To help clarify the distinction:**
+A common point of confusion is thinking that ""high throughput"" means ""fast."" However, as the lecturer notes, high throughput and low latency are often at odds (01:38). 
+
+Think of it like a **cargo ship vs. a courier**:
+*   **High Throughput (The Cargo Ship):** A ship moves a massive volume of goods (high throughput). It is not ""fast"" in terms of speed—it might take weeks to reach its destination (high latency)—but it completes a huge amount of work in one trip. This is like the **Data Pipeline**.
+*   **Low Latency (The Courier):** A courier on a motorcycle moves a very small amount of goods (low throughput), but they get there very quickly (low latency). This is like the **Video Streaming** example mentioned in the lecture (02:08)."
+Why is low latency critical for online gaming? ,"Low latency, often called **ping** in gaming, is critical because it ensures that your actions—like pressing a button or moving your mouse—happen in **real-time** on the screen (1:23-1:29). 
+
+* **Responsive gameplay:** If latency is high, there is a noticeable delay between your command and the action, making your character feel slow or unresponsive (1:31-1:33).
+* **Competitive advantage:** In fast-paced games, even a few milliseconds of delay can result in a frustrating experience, as your opponents may react faster than your system allows (1:33-1:35).","The excerpt directly addresses this. In online gaming, latency is often referred to as **ping** (00:52).
+
+Low latency is critical because gaming relies on **real-time responsiveness**. Here is the breakdown of why that matters:
+
+1.  **The Action-Response Loop:** When you play a game, you are constantly sending inputs (like clicking a mouse or pressing a key) and receiving visual feedback. Latency is the ""time delay"" (00:52) between those two events.
+2.  **Real-Time Interaction:** For a game to feel natural, your actions need to happen in real time. If you have low latency, your character moves the instant you press a button.
+3.  **The Consequence of High Latency:** If latency is high, there is a noticeable gap between your input and the game's reaction. As the lecturer notes, your character might be ""slow to respond"" (00:52). In a fast-paced game, even a tiny delay can mean your character gets hit by an opponent before you have the chance to dodge, leading to a ""frustrating experience.""
+
+**A simple way to think about it:**
+Imagine playing a game of tennis. 
+*   **Low Latency** is like playing against someone standing right in front of you; you see the ball hit the racket and react instantly. 
+*   **High Latency** is like playing against someone who is miles away, and you have to wait for a signal to travel back and forth before you see what happened. You wouldn't be able to keep up with the pace of the game!"
+ What are the common ways to increase system throughput? ,"The video outlines several strategies to increase **system throughput**, which is the total volume of tasks or operations a system can handle per unit of time (0:00-0:06):
+
+* **Adding resources:** You can scale your system by increasing capacity through the addition of more **CPUs** or **servers** (0:29-0:31). 
+* **Process optimization:** Improving the efficiency of your internal processes allows the system to manage a higher number of tasks simultaneously (0:31-0:35). 
+* **Load balancing:** Distributing incoming traffic across multiple servers ensures that the load is handled effectively, directly increasing the total number of requests served per second (0:43-0:49).","This excerpt is directly relevant to your question. The lecturer identifies two primary ways to increase system throughput.
+
+To increase throughput, you can either **scale your resources** or **improve your process efficiency**.
+
+Here is the breakdown of those two methods based on the lecture:
+
+### 1. Adding Resources (Scaling)
+The most straightforward way to increase throughput is to provide the system with more ""power"" to handle the volume of work. The lecturer mentions two specific ways to do this:
+*   **Adding more CPUs:** This increases the processing power of an individual machine.
+*   **Adding more servers:** This is shown specifically in the context of a web server (00:45). By adding more servers (often called horizontal scaling), you can distribute the load so that the system can handle a higher volume of requests per second.
+
+### 2. Improving Efficiency
+Instead of just throwing more hardware at the problem, you can increase throughput by ""making your processes more efficient"" (00:00). This means optimizing the software or the workflow so that the system can ""handle more tasks at once"" using the resources you already have.
+
+**A Concrete Example:**
+Imagine you have a web server that can handle 100 requests per second.
+*   **Resource Scaling:** You buy a second identical server. Now, your system can handle roughly 200 requests per second because you have doubled your hardware.
+*   **Efficiency Optimization:** You rewrite the code to be faster or use a cache (which the lecturer mentions as a way to serve data quicker at 00:00). Now, that same single server might be able to handle 150 requests per second because it is processing each request more effectively."
+ Does adding more CPUs always improve throughput? ,"Adding more CPUs or cores **does not always** improve system throughput. While increasing resources can enhance performance for tasks that are highly parallelizable, several factors can prevent or even diminish these gains:
+
+* **Amdahl’s Law:** This is a fundamental principle in computing stating that the maximum speedup of a system is limited by the portion of the task that must remain serial (sequential). No matter how many processors you add, the performance will eventually hit a ceiling determined by the parts of the code that cannot be processed simultaneously.
+* **Communication and Coordination Overhead:** As you add more processors, they often need to communicate, share data, or synchronize their work. This ""overhead"" can consume a significant amount of computing power, eventually outweighing the benefits of having extra cores.
+* **Resource Contention:** When multiple CPUs compete for the same shared resources—such as memory bandwidth, storage I/O, or bus access—bottlenecks occur. Adding more processors to an already saturated system can increase contention, potentially causing performance to plateau or even decrease.
+* **Non-Parallelizable Workloads:** Many applications are inherently single-threaded or rely on tasks that depend on the results of previous steps. In these cases, extra cores sit idle, and the system's throughput remains limited by the speed of a single CPU core.
+
+In essence, scaling throughput is rarely a linear process. Systems designers must balance the addition of hardware with the parallel nature of the software they are running.","This excerpt is **partly relevant**. It establishes the definition of throughput as the ""number of tasks, requests, or operations a system can handle per unit of time"" (00:00) and mentions that throughput ""can be increased by adding more resources, like more CPUs"" (00:00). However, it does not address the limitations of this scaling.
+
+To answer your question: **No, adding more CPUs does not always improve throughput.**
+
+While the lecturer is correct that adding CPUs is a primary way to increase throughput (00:00), there are three main reasons why this eventually hits a limit or can even cause performance to drop:
+
+### 1. Amdahl's Law (The Serial Bottleneck)
+Not every part of a program can be split up to run at the same time. Some tasks are ""serial,"" meaning they must happen in a specific order (e.g., you can't put on your shoes before you put on your socks). 
+*   **The Rule:** If 10% of your program is serial and cannot be parallelized, your maximum speedup is limited to 10x, no matter if you have 100 or 1,000 CPUs. The serial part becomes a permanent bottleneck.
+
+### 2. Coordination Overhead
+When you have multiple CPUs working on the same task, they have to ""talk"" to each other to stay in sync. They need to share data, manage locks (to ensure two CPUs don't change the same piece of data at the exact same time), and coordinate results.
+*   **The Problem:** As you add more CPUs, the amount of time spent on this ""management"" (overhead) increases. Eventually, you reach a point where the CPUs spend more time talking to each other than actually doing the work. At this point, adding another CPU can actually **decrease** throughput.
+
+### 3. External Bottlenecks (Resource Contention)
+Throughput is often limited by something other than raw processing power. Even if you have infinite CPUs, your system might be waiting on:
+*   **Memory Bandwidth:** The CPUs are ready to work, but the path to the RAM is ""clogged.""
+*   **Disk I/O:** The CPUs are waiting for data to be read from a hard drive.
+*   **Network Latency:** The system is waiting for data to arrive from another server.
+
+**A Concrete Example:**
+Imagine a kitchen (the system) where the goal is to produce as many pizzas as possible per hour (throughput).
+*   **Adding CPUs:** You hire more chefs. Initially, throughput goes up because more pizzas are being prepped.
+*   **The Bottleneck:** Eventually, you have 20 chefs in a tiny kitchen, but only **one oven**. No matter how many chefs you hire, you can only bake one pizza at a time. Adding more chefs (CPUs) at this point provides zero extra throughput and might actually make the kitchen more crowded and slower (overhead)."
+ How does caching help in reducing system latency? ,"Caching reduces system latency by providing a **faster access point** for frequently requested data (1:15-1:18). Instead of repeatedly fetching information from a slower, primary source—such as a distant database or a complex computational process—the system stores a copy of that data in high-speed, temporary storage closer to the application.
+
+Key benefits of caching include:
+* **Reduced Latency:** By serving data from memory (like *RAM*) instead of disk or network requests, response times are significantly shortened.
+* **Lowered Workload:** The primary data source is relieved from repetitive queries, which helps prevent bottlenecks.
+* **Improved Efficiency:** Frequently accessed content is immediately available, allowing the system to fulfill requests almost instantaneously.","The excerpt you provided mentions that caching is a method used to ""serve data quicker"" to reduce latency (00:52) and lists it as a primary way to reduce latency on a slide (01:19). However, it doesn't explain the underlying mechanism of *how* it does this.
+
+To clear up your doubt: **Caching reduces latency by shortening the path the system has to take to find the information it needs.**
+
+Here is the step-by-step reasoning:
+
+### 1. The ""Slow"" Path (High Latency)
+In a standard system, when a user makes a request (like clicking a button or loading a profile), the system often has to go through several ""hops"" to get the data:
+*   **Step A:** The application receives the request.
+*   **Step B:** The application queries a database (which might be on a slow hard drive).
+*   **Step C:** The database finds the data, processes it, and sends it back.
+*   **Step D:** The application sends the response to the user.
+
+Each of these steps takes time. If the database is busy or the data is far away, the **latency** (the time delay for that single request to complete) is high.
+
+### 2. The ""Fast"" Path (Low Latency via Caching)
+Caching introduces a ""shortcut."" A cache is a high-speed storage layer (usually using RAM, which is much faster than a hard drive) that sits between the application and the database.
+
+When a request comes in now:
+*   **Step A:** The application receives the request.
+*   **Step B:** The application checks the **Cache** first.
+*   **Step C:** If the data is in the cache (a ""cache hit""), it is returned **instantly**.
+*   **Step D:** The application sends the response to the user.
+
+By skipping the slow database query, you significantly reduce the time delay.
+
+### A Concrete Example
+Imagine you are at a library:
+*   **No Cache:** Every time someone asks for a book, you have to walk to the back of the building, search the massive archives, find the book, and walk back. This is **high latency**.
+*   **With Caching:** You keep the 5 most popular books on a small table right next to the front desk. When someone asks for one of those, you just hand it to them immediately. This is **low latency**.
+
+**Summary for your notes:**
+Caching reduces latency because it stores copies of frequently accessed data in a faster storage medium, allowing the system to bypass slow operations (like complex database queries or network requests) to provide a faster response to the user."
+ In what scenarios should I prioritize throughput over latency? ,"The video states that you should prioritize **throughput** when your main goal is to **maximize the total amount of work done over a period of time** (1:58-2:01). This approach is ideal for several specific scenarios:
+
+• **Batch processing systems:** Where large sets of data are handled in groups rather than individually (2:02-2:04). 
+• **Data pipelines:** Systems designed to move or aggregate massive amounts of information, such as collecting logs from millions of devices (2:04-2:06, 2:21-2:24). 
+• **High-volume servers:** Situations where the primary requirement is handling a large number of simultaneous requests efficiently (2:06-2:07).","This excerpt is directly relevant to your question as it explicitly compares the two concepts and provides specific use cases for each.
+
+You should prioritize **throughput** when your primary goal is to **maximize the total amount of work completed over a period of time**, rather than the speed of an individual task.
+
+Here is the breakdown of why and when to choose throughput based on the lecture:
+
+### 1. The Core Difference
+To understand the ""when,"" it helps to look at how the lecturer defines the two:
+*   **Throughput** is ""how much work is done in a given amount of time"" (01:38). Think of this as the **volume** of the output (e.g., widgets per hour).
+*   **Latency** is ""how long it takes to complete a single task"" (01:38). Think of this as the **delay** or response time (e.g., seconds to see a button click).
+
+### 2. When to Prioritize Throughput
+You prioritize throughput in scenarios where the ""big picture"" volume matters more than the ""instant"" response. The lecturer highlights three specific scenarios:
+
+*   **Batch Processing Systems (01:19):** These are systems designed to process large groups of data all at once. Because the goal is to finish a massive job (like processing a month's worth of payroll), it doesn't matter if one specific entry takes a few extra milliseconds to process, as long as the entire batch is completed efficiently.
+*   **Data Pipelines (02:08):** The lecturer uses the example of a pipeline aggregating logs from millions of devices. In this case, the priority is to collect as much data as possible. It is not critical that every single log arrives at the exact millisecond it is generated; what matters is that the system can handle the massive volume of incoming data.
+*   **Servers Handling Large Volumes of Requests (02:17):** When a system's main job is to serve a huge number of users or requests simultaneously, the focus shifts to the capacity of the system to keep moving that volume forward.
+
+### Summary Comparison
+To keep your notes organized, you can contrast these two priorities as shown in the final slide (02:17):
+
+| Priority | Goal | Best For... | Examples |
+| :--- | :--- | :--- | :--- |
+| **Throughput** | Maximize work over time | Batch processing, Data pipelines | Log aggregation, large-scale data processing |
+| **Latency** | Minimize response delay | User interactions, Real-time apps | Video streaming, online gaming, clicking a button |"
+How can I identify if a bottleneck is caused by latency or throughput? ,"Distinguishing between a **latency-bound** and a **throughput-bound** bottleneck is crucial for effective system optimization. Here is how you can identify which is limiting your system performance:
+
+### 1. Observe Performance Under Load
+* **Latency-Bound:** You see performance degradation **even with low traffic**. If a single user request takes a long time to process regardless of how many other requests are in the system, your bottleneck is likely in the *logic, network hops, or database queries* (0:52-1:21).
+* **Throughput-Bound:** The system performs well with few users but **slows down as traffic increases**. If response times increase significantly only when the system is under heavy load, your system is likely hitting its capacity limits, causing tasks to queue up while waiting for resources (1:46-1:53).
+
+### 2. Analyze Resource Utilization
+* **Throughput Bottlenecks:** These are often characterized by high CPU, memory, or disk I/O saturation. When resources are pinned at 100%, the system cannot process more tasks in parallel, forcing new requests to wait (0:29-0:48).
+* **Latency Bottlenecks:** These occur when resources are *not* fully utilized, but individual requests still take a long time. This is often caused by external factors like long network round-trips, inefficient code, or blocking I/O operations that keep the CPU idle while waiting for data (1:11-1:21).
+
+### 3. Use Monitoring Metrics
+* **Check Queue Depth:** If your metrics show that requests are spending significant time sitting in a queue, you have a **throughput** issue (not enough workers/resources to handle the volume).
+* **Examine Tail Latency (p99):** If your average response time is fine but a small percentage of requests are very slow, you are likely dealing with **latency** outliers caused by specific slow dependencies or ","This excerpt is **partly relevant**. It provides the core definitions of throughput (how much work is done over time) and latency (how long a single task takes), and it notes that they are often at odds (01:38). However, it doesn't explicitly provide a diagnostic method for identifying which one is causing a bottleneck, so I will supplement the lecture's definitions with a practical framework for troubleshooting.
+
+To identify whether a bottleneck is caused by latency or throughput, you need to look at **how the system behaves under different loads.**
+
+### 1. Identifying a Latency Bottleneck
+A latency bottleneck occurs when a **single operation** is taking too long to complete, regardless of how many other people are using the system.
+
+*   **The Symptom:** A user performs an action (like clicking ""Submit""), and there is a long delay before the response appears. This happens even when the system is ""quiet"" (low traffic).
+*   **The Cause:** This is usually due to inefficient code, a slow database query, a slow network connection, or a hardware limitation on a specific task.
+*   **Example:** You click a button to load a profile page. It takes 5 seconds to load, even though you are the only person on the website. This is a **latency** issue.
+
+### 2. Identifying a Throughput Bottleneck
+A throughput bottleneck occurs when the system works perfectly fine for one person, but slows down or fails when **many people** try to use it at once.
+
+*   **The Symptom:** The system responds quickly when traffic is low, but as more users join, the response time (latency) starts to climb significantly, or the system starts dropping requests entirely.
+*   **The Cause:** This is usually due to the system hitting a ""ceiling""—such as running out of CPU, memory, or reaching the maximum number of concurrent connections allowed by a server.
+*   **Example:** A website works perfectly for you at 3:00 AM. However, at 8:00 PM when thousands of people visit, the site becomes sluggish or crashes. This is a **throughput** issue.
+
+### Summary Comparison Table
+To help you diagnose this in a real-world scenario, use this mental checklist:
+
+| If the problem is... | The behavior is... | The bottleneck is likely... |
+| :--- | :--- | :--- |
+| **Slow for one user** | High delay on a single request, even with no other traffic. | **Latency** (e.g., a slow query or bad code). |
+| **Slow for many users** | Fast for one user, but slows down/crashes as volume increases. | **Throughput** (e.g., not enough servers or CPU). |
+
+**Note on the ""Overlap"":**
+As the lecturer mentioned, these two are often at odds (01:38). A throughput bottleneck often *manifests* as high latency. If your system is overwhelmed by too much work (throughput bottleneck), the ""queue"" of tasks grows so long that the time it takes for a single task to finish (latency) skyrockets. To tell them apart, you must test the system with a **low load**: if it's still slow with only one user, it's a latency problem."

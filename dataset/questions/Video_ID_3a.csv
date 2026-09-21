@@ -1,0 +1,370 @@
+Questions,Model A,Model B
+"What exactly defines a ""dominated"" strategy in a game?","In game theory, the **dominance property** is a technique used to simplify a payoff matrix by identifying and removing strategies that are inferior compared to others (0:41). A strategy is considered ""dominated"" when it consistently yields poorer results than another available strategy.
+
+Here is how dominance is defined for different parts of the matrix:
+
+* **Row Dominance:** A row is dominated if all of its elements are **lesser than or equal to** the corresponding elements of another row. Since the goal is to maximize outcomes, the player should choose the superior row, allowing the inferior (dominated) row to be deleted (1:05-1:45).
+* **Column Dominance:** A column is dominated if all of its elements are **greater than or equal to** the corresponding elements of another column. Because the column player aims to minimize their losses, a column with higher values (representing higher costs or losses for them) is considered dominated and can be removed (1:48-2:24).
+
+In some complex scenarios, you can also compare a row or column against the **average** of two or more other rows or columns to check for dominance when no single direct comparison works (2:29-3:18).","A strategy is ""dominated"" when there is another strategy available to that same player that is guaranteed to perform at least as well (or better) regardless of what the opponent does. Because a rational player wants to maximize their own outcome, they will never choose a dominated strategy.
+
+The lecture explains this by showing how we can simplify a payoff matrix by removing these ""inferior"" options. The definition changes slightly depending on whether you are looking at rows (Player A) or columns (Player B).
+
+### 1. Row Dominance (Player A)
+Player A wants to **maximize** the payoff. A row is dominated if every value in that row is **lesser than or equal to** the corresponding values in another row (00:04, 05:30).
+
+**Example:**
+Imagine Player A has two choices (rows) and Player B has two choices (columns):
+*   Row 1: [3, 5]
+*   Row 2: [7, 8]
+
+In this case, **Row 1 is dominated by Row 2**. Why? Because 3 is less than 7, and 5 is less than 8. No matter what Player B chooses, Player A will always get a higher payoff by picking Row 2. Therefore, we can eliminate Row 1 from the matrix.
+
+### 2. Column Dominance (Player B)
+In these games, the numbers in the matrix represent the payoff for Player A. This means Player B wants to **minimize** those numbers. A column is dominated if every value in that column is **greater than or equal to** the corresponding values in another column (11:17).
+
+**Example:**
+*   Column 1: [10, 12]
+*   Column 2: [4, 6]
+
+In this case, **Column 1 is dominated by Column 2**. Why? Because 10 is greater than 4, and 12 is greater than 6. Since Player B wants the smallest number possible, they will never choose Column 1 if Column 2 is available. Therefore, we can eliminate Column 1.
+
+### Summary Table
+| Player | Goal | Condition for Dominance | Action |
+| :--- | :--- | :--- | :--- |
+| **Player A (Rows)** | Maximize | Row $X$ values $\leq$ Row $Y$ values | Delete Row $X$ |
+| **Player B (Columns)** | Minimize | Column $X$ values $\geq$ Column $Y$ values | Delete Column $X$ |"
+Why do we delete the least-value row but the highest-value column?,"The rule for deleting rows and columns in the **dominance property** depends on the players' objectives within the payoff matrix (0:41-1:04).
+
+* **Why delete the least-value row?** Player A is the **gainer** and aims to maximize their outcome (1:36, 2:21). A row is dominated if all its values are consistently lower than or equal to the values in another row (1:11-1:30). Because Player A will naturally choose the row with higher values to win more, the row with the **least values** becomes inferior and can be eliminated (1:34-1:45).
+
+* **Why delete the highest-value column?** Player B is the **loser** in this context and aims to minimize their losses (2:17-2:24). A column is dominated if its values are consistently higher than or equal to another column (1:53-2:05). Since Player B wants to avoid large payouts, they will prefer the column with the smaller values. Therefore, the column with the **highest values** represents a worse strategy for Player B and can be eliminated (2:08-2:12).","The reason we delete the least-value row but the highest-value column is that the two players have opposite goals in a zero-sum game. As the lecturer explains, ""Player A is a gainer and player B is a loser"" (02:04).
+
+To understand this, you have to look at what each player is trying to achieve:
+
+### 1. Row Reduction (Player A's Perspective)
+The payoff matrix shows the profit for Player A. Since Player A is the ""gainer,"" their goal is to **maximize** the payoff. 
+
+If Row X has values that are all lesser than or equal to the corresponding values in Row Y, Row X is ""dominated"" (01:10). A rational Player A would never choose Row X because Row Y offers a better (or equal) result in every possible scenario. Therefore, we delete the lesser row because it is a ""bad"" choice for Player A.
+
+*   **Example:**
+    *   Row 1: [3, 5]
+    *   Row 2: [4, 6]
+    *   *Logic:* Since 3 < 4 and 5 < 6, Row 1 is useless to Player A. We delete the lesser row.
+
+### 2. Column Reduction (Player B's Perspective)
+In these games, Player B is the ""loser,"" which means they want to **minimize** the payoff for Player A (because Player B's gain is Player A's loss).
+
+If Column X has values that are all greater than or equal to the corresponding values in Column Y, Column X is ""dominated"" by Column Y (01:10). A rational Player B would never choose Column X because Column Y results in a smaller payoff for Player A (which is better for Player B). Therefore, we delete the higher column because it is a ""bad"" choice for Player B.
+
+*   **Example:**
+    *   Column 1: [5, 8]
+    *   Column 2: [2, 4]
+    *   *Logic:* Since 5 > 2 and 8 > 4, Column 1 is worse for Player B. They would always prefer Column 2 to keep the numbers low. We delete the higher column.
+
+### Summary Table
+| Player | Role | Goal | Action | Rule |
+| :--- | :--- | :--- | :--- | :--- |
+| **Player A (Rows)** | Gainer | Maximize | Delete the ""worse"" (lower) row | Row X $\le$ Row Y $\rightarrow$ Delete X |
+| **Player B (Columns)** | Loser | Minimize | Delete the ""worse"" (higher) column | Column X $\ge$ Column Y $\rightarrow$ Delete X |"
+How can I quickly determine whether a game has a saddle point?,"To determine if a game has a **saddle point**, you need to perform two steps using the payoff matrix (3:55-4:39):
+
+1. **Row Minima**: Identify the **minimum value** in each row. Then, select the **maximum** of these row minimums (this is the *maximin* value).
+2. **Column Maxima**: Identify the **maximum value** in each column. Then, select the **minimum** of these column maximums (this is the *minimax* value).
+
+**The Rule**: A saddle point exists if and only if the **maximin value equals the minimax value** (4:59-5:06). When these values match, that specific cell represents the value of the game, indicating a stable, optimal outcome where neither player has an incentive to deviate from their chosen strategy (5:06-5:16).","To determine quickly whether a game has a saddle point, you need to compare two specific values: the **Maximin** and the **Minimax**.
+
+A game has a saddle point if and only if:
+$$\text{Maximin} = \text{Minimax}$$
+
+Here is the step-by-step process to find these values, based on the lecturer's method:
+
+### 1. Find the Maximin (The ""Best of the Worst"" for Player A)
+*   Look at each row and identify the **minimum value** in that row.
+*   From those minimum values, pick the **maximum** one.
+*   This is your **Maximin** value.
+
+### 2. Find the Minimax (The ""Best of the Worst"" for Player B)
+*   Look at each column and identify the **maximum value** in that column.
+*   From those maximum values, pick the **minimum** one.
+*   This is your **Minimax** value.
+
+### 3. Compare
+*   If the **Maximin equals the Minimax**, the game has a saddle point (04:20).
+*   If they are **not equal**, there is no saddle point, and you must use other methods like the dominance property or mixed strategies (12:20).
+
+---
+
+### Examples from the Lecture
+
+**Example 1: A game WITH a saddle point (04:20)**
+The lecturer identifies the column maximums as: 8, 9, 11, 10, 10.
+*   The **Minimax** (the smallest of these) is **8**.
+
+Then, the lecturer looks at the row minimums and finds that the maximum of those is also **8**.
+*   The **Maximin** is **8**.
+
+Because **Maximin (8) = Minimax (8)**, the lecturer concludes: *""the value of game is 8... this game has saddle point""* (04:20).
+
+**Example 2: A game WITHOUT a saddle point (12:20)**
+The lecturer calculates the row minimums and finds the maximum is **-3**.
+*   The **Maximin** is **-3**.
+
+Then, the lecturer calculates the column maximums and finds the minimum is **4**.
+*   The **Minimax** is **4**.
+
+Because **-3 $\neq$ 4**, the lecturer states: *""now this point has no saddle point. Why? Because maximum value [Maximin] is not equal to minimax value""* (12:20)."
+When is it necessary to switch from pure strategies to mixed strategies?,"In game theory, you switch from **pure strategies** to **mixed strategies** when a game does not have a **saddle point** (13:27-13:42).
+
+* **Pure Strategy:** A game uses a pure strategy when there is a stable outcome, or saddle point, where the **maximin value equals the minimax value** (4:59-5:06). In this scenario, both players have a single optimal strategy they should consistently choose to reach the value of the game.
+* **Mixed Strategy:** You must transition to a mixed strategy when the **maximum of row minimums is NOT equal to the minimum of column maximums** (13:31-13:42). This means there is no single stable equilibrium point. Instead, players must randomize their strategy choices using specific probabilities to achieve an optimal outcome (18:07-18:12).","This excerpt directly addresses your doubt.
+
+You switch from pure strategies to mixed strategies when a game **does not have a saddle point**.
+
+In game theory, a saddle point exists when the **Maximin** value (the maximum of the row minimums) is equal to the **Minimax** value (the minimum of the column maximums). 
+
+Here is the step-by-step reasoning for why this switch is necessary:
+
+1.  **The Goal of Pure Strategy:** When we look for a pure strategy, we are trying to find a single ""best"" move for each player. If the Maximin equals the Minimax, it means both players have found a stable strategy where neither player can improve their outcome by changing their move unilaterally.
+2.  **The Problem of Inequality:** If the Maximin is **not equal** to the Minimax, it means there is no stable ""best"" move. If Player A picks their best ""safe"" move (the Maximin), Player B still has a move that can result in a worse outcome for Player A. Because neither player can find a single move that is ""safe"" against all of the opponent's possible moves, they must randomize.
+3.  **The Solution (Mixed Strategy):** When no saddle point exists, players use a **mixed strategy**, which involves playing different strategies with specific probabilities. This prevents the opponent from predicting your move, which is the only way to reach an equilibrium in these types of games.
+
+**Example from your lecture:**
+At **(12:20)**, the lecturer identifies a payoff matrix where the Maximin value is **-3** and the Minimax value is **4**. Because $-3 \neq 4$, the lecturer explicitly states, *""this point has no saddle point,""* and proceeds to use the dominance property for mixed strategies to find the value of the game."
+How do I correctly select which rows or columns to average?,"Selecting rows or columns to average is a technique used when **direct dominance** is not immediately visible (2:29-3:01). There is no single rule for which ones to pick, but the process involves these key steps:
+
+* **Trial and Error:** You can test the average of any two or more rows or columns to see if they dominate another row or column (2:46, 16:46).
+* **Check for Dominance:** When you calculate the average, compare each element of the average against the corresponding elements of the target row or column (17:18-17:37).
+* **For Rows:** The average of two or more rows must be **greater than or equal** to the elements of the target row for that target row to be considered ""dominated"" and eligible for deletion (2:54-3:01).
+* **For Columns:** The average of two or more columns must be **less than or equal** to the elements of the target column for that target column to be considered dominated (3:12-3:18).
+
+If one combination of rows or columns does not result in a valid dominance, you should try different combinations (17:47-18:01).","This excerpt is directly relevant to your doubt. It explains the logic of using averages when simple dominance (comparing one row/column to another) fails.
+
+### How to select which rows or columns to average
+
+The short answer is: **There is no fixed rule for which ones to pick first, but you should start with the most ""extreme"" options and try combinations of two until you find one that works.**
+
+The goal of the ""average method"" is to find a combination of strategies that is mathematically ""better"" for your opponent than the single strategy you are trying to eliminate. Once you find that combination, you can delete the dominated strategy.
+
+Here is the step-by-step logic used in the lecture to decide:
+
+**1. Try Simple Dominance First**
+Before averaging anything, compare each column to every other column individually. If any column has entries that are all greater than or equal to another column, delete it immediately (09:17).
+
+**2. Try Averaging the ""Best"" Candidates**
+If no single column is dominated, look for the columns with the highest values (since Player B wants to minimize the payoff, the highest values are the ""worst"" for them). Try averaging the two columns that seem most likely to ""outperform"" the others.
+
+**3. Systematic Substitution**
+If the first pair you average doesn't work, you simply swap one out. The lecturer demonstrates this at (16:35). If you tried averaging Column 1 and Column 2 and it didn't eliminate Column 3, your next logical steps are:
+*   Average Column 1 and Column 3, then compare to Column 2.
+*   Average Column 2 and Column 3, then compare to Column 1.
+
+### Worked Example (from the lecture)
+Let's look at the specific numbers from the lecture (15:37) to see how this selection works:
+
+Suppose you have these three columns for Player B (who wants to minimize the payoff):
+*   **Col 1:** $[5, -3]$
+*   **Col 2:** $[-4, 5]$
+*   **Col 3:** $[3, 4]$
+
+**Step 1: Simple Comparison**
+*   Is Col 1 $\ge$ Col 2? No ($5 > -4$, but $-3 < 5$).
+*   Is Col 2 $\ge$ Col 1? No ($-4 < 5$).
+*   Is Col 3 $\ge$ Col 1? No ($3 < 5$).
+*   *Result:* No simple dominance. We must use averages.
+
+**Step 2: Average Col 1 and Col 2**
+Calculate the average of the first two columns:
+*   Row 1: $(5 + (-4)) / 2 = 0.5$
+*   Row 2: $(-3 + 5) / 2 = 1$
+*   **Average [0.5, 1]**
+
+**Step 3: Compare to Col 3**
+Compare the average $[0.5, 1]$ to Column 3 $[3, 4]$:
+*   Is $3 \ge 0.5$? Yes.
+*   Is $4 \ge 1$? Yes.
+
+Because every entry in Column 3 is greater than or equal to the corresponding entry in the average of Columns 1 and 2, Column 3 is ""dominated."" Player B would never choose Column 3 because they could always get a lower payoff by playing a mix of Columns 1 and 2. Therefore, **Column 3 is deleted** (16:35)."
+What should I do if no single row or column is immediately dominated?,"When direct dominance is not immediately apparent, you can use the **average method** to simplify the payoff matrix (2:29-2:46). Here is how to apply it:
+
+* **Compare with Averages:** Instead of comparing one row or column against another single row or column, compare a specific row or column against the **average of two or more** other rows or columns (2:33-3:01).
+* **Row Reduction Rule:** A row can be deleted if it is dominated by the average of two or more other rows. This means the elements of the target row must be **less than or equal** to the corresponding elements of the averaged row (2:54-3:01).
+* **Column Reduction Rule:** A column can be deleted if its elements are **greater than or equal** to the average of two or more other columns (3:05-3:18).
+* **Trial and Error:** There is no single rule for which rows or columns to choose for the average; you may need to test different combinations until you find one that reveals dominance (16:46-17:01, 17:47-18:01).","This excerpt directly addresses your question at the very end of the lecture.
+
+If you find yourself in a situation where no single row or column is immediately dominated by another, you can use the **averaging method** to check for dominance.
+
+### The Solution: Averaging Columns/Rows
+When a single column doesn't dominate another, it might be because a player is ""torn"" between two different options. In these cases, you can take the average of two columns and compare that average against the remaining columns.
+
+The logic is that if the average of two strategies is consistently worse than (or equal to) a third strategy, then that third strategy is the dominant choice.
+
+### How to do it (based on the lecture):
+At **(15:37)**, the lecturer demonstrates this specific technique:
+
+1.  **Identify two columns** that are not dominated but seem to be ""competing"" with each other.
+2.  **Calculate the average** of these two columns.
+3.  **Compare this average** to the other columns in the matrix.
+
+**Worked Example from the Lecture:**
+The lecturer looks at two columns:
+*   **Column 1:** $[5, -3]$
+*   **Column 2:** $[-3, 4]$
+
+Neither of these is dominated by the other because $5 > -3$ (Column 1 is better in the first row) but $4 > -3$ (Column 2 is better in the second row).
+
+To break this tie, the lecturer takes the average:
+*   **Average of Row 1:** $(5 + (-3)) / 2 = 1$
+*   **Average of Row 2:** $(-3 + 4) / 2 = 0.5$
+
+The lecturer then takes this new ""average column"" $[1, 0.5]$ and compares it against the other columns in the matrix to see if any of those columns are greater than or equal to both $1$ and $0.5$. If they are, you can eliminate the original two columns."
+Does the order of row and column elimination affect the final game value?,"The **dominance property** is designed to reduce the size of the payoff matrix without altering the optimal strategy or the **value of the game** (0:41-0:56). Therefore, the final result should remain the same regardless of the sequence in which you eliminate dominated rows or columns, provided you follow the rules correctly:
+
+* **Consistency:** As long as you correctly identify rows or columns that are truly ""dominated"" (meaning they are objectively inferior for the player based on the gain/loss rules), the order of removal is flexible (0:56-1:04, 2:24-2:29).
+* **Step-by-Step Reduction:** You often alternate between row and column reductions to shrink the matrix systematically (10:47-10:55, 14:50-14:55). Because you are essentially removing sub-optimal choices that neither player would ever rationally pick, the core equilibrium of the game is preserved.
+
+Ultimately, the goal is to reach a simplified matrix—often 2x2—from which you can calculate the precise game value and probabilities using standard algebraic methods (18:04-18:12).","The short answer is **no, the order of row and column elimination does not affect the final game value.**
+
+Here is the reasoning behind why this is the case:
+
+### 1. The Principle of Dominance
+The lecture explains that a row can be deleted if all its entries are lesser than or equal to the corresponding entries of another row (06:31, 07:55). This is called a **dominance property**. 
+
+In game theory, a ""dominated"" strategy is one that is objectively worse for the player choosing it, regardless of what the other player does. Because a rational player will never choose a dominated strategy, removing it from the matrix doesn't change the ""best"" options available to the players.
+
+### 2. Independence of Choices
+Think of dominance like a ""survival of the fittest"" for strategies. If Strategy A is worse than Strategy B, Strategy A is ""out."" If Strategy C is also worse than Strategy D, Strategy C is also ""out."" 
+
+It doesn't matter if you identify that Strategy A is ""out"" first or if you identify Strategy C is ""out"" first. Both will eventually be removed. Because the removal of one dominated row doesn't suddenly make another row ""better"" or ""worse"" in a way that changes the dominance of the remaining rows, the final reduced matrix will always contain the same set of non-dominated strategies.
+
+### 3. A Concrete Example
+Imagine a 3x3 matrix where:
+*   Row 1 is dominated by Row 2.
+*   Row 3 is dominated by Row 2.
+
+**Scenario A (Delete Row 1 first):**
+1. You see Row 1 is dominated by Row 2 and delete Row 1.
+2. You are left with Row 2 and Row 3.
+3. You see Row 3 is dominated by Row 2 and delete Row 3.
+4. **Result:** You are left with Row 2.
+
+**Scenario B (Delete Row 3 first):**
+1. You see Row 3 is dominated by Row 2 and delete Row 3.
+2. You are left with Row 1 and Row 2.
+3. You see Row 1 is dominated by Row 2 and delete Row 1.
+4. **Result:** You are left with Row 2.
+
+In both scenarios, you end up with the same row, which leads to the same game value.
+
+### Summary for your notes:
+The dominance property identifies strategies that a rational player would never play. Since these strategies are ""inferior"" based on the values in the matrix, the order in which you ""cross them out"" does not change the fact that they are inferior. Therefore, you will always arrive at the same reduced matrix and the same final game value."
+"What is the step-by-step logic behind finding the ""oddments"" for probabilities?","Finding the **oddments** (often called differences) is a key step in calculating the optimal mixed strategy for a 2x2 payoff matrix. This method determines the relative weights or probabilities each player should assign to their strategies to reach an equilibrium (18:07-18:12).
+
+Here is the step-by-step logic:
+
+1. **Identify the 2x2 Matrix**: After reducing the original game, you are left with a 2x2 matrix representing the final competing strategies (18:04-18:07).
+2. **Calculate Row Oddments**: 
+    * Find the absolute difference between the two values in the **first row** and place this result next to the **second row** (18:23-18:30).
+    * Find the absolute difference between the two values in the **second row** and place this result next to the **first row** (18:30-18:37).
+3. **Calculate Column Oddments**:
+    * Find the absolute difference between the two values in the **first column** and place this result below the **second column** (18:43-18:48).
+    * Find the absolute difference between the two values in the **second column** and place this result below the **first column** (18:48-18:57).
+4. **Convert to Probabilities**: 
+    * To find the probability for a specific strategy, divide that strategy's oddment by the **sum of both oddments** in that row or column (19:04-19:43).
+
+This process ensures that the expected payoff remains balanced for both players, regardless of what the opponent chooses (19:46-20:16).","This excerpt is directly relevant to your question. It explains how to calculate ""oddments"" to determine the probabilities for a mixed strategy in a 2x2 game matrix.
+
+The ""oddments"" are essentially the **differences between the payoffs in each column** of your reduced 2x2 matrix. The logic follows a specific sequence to ensure that the expected value of the game is the same regardless of which strategy the opponent chooses.
+
+Here is the step-by-step logic based on the lecturer's example:
+
+### 1. Identify the 2x2 Matrix
+After using the dominance property to reduce the game, you are left with a 2x2 matrix. In the lecturer's example, the payoffs for Player A are:
+*   Row 1: $5, -3$
+*   Row 2: $-4, 5$
+
+### 2. Calculate the Column Differences (The ""Oddments"")
+To find the oddments, you calculate the difference between the values in each column.
+*   **Column 1 Difference:** $5 - (-4) = 9$
+*   **Column 2 Difference:** $5 - (-3) = 8$
+
+These two numbers (**9** and **8**) are your ""oddments"" (17:39, 18:32).
+
+### 3. Calculate the Probabilities
+The probability for each row is found by taking the oddment of that column and dividing it by the sum of both oddments.
+
+*   **Sum of Oddments:** $9 + 8 = 17$
+*   **Probability for Row 1:** $\frac{\text{Oddment of Col 1}}{\text{Sum}} = \frac{9}{17}$
+*   **Probability for Row 2:** $\frac{\text{Oddment of Col 2}}{\text{Sum}} = \frac{8}{17}$
+
+(This is shown in the calculations at 19:27 and 19:33).
+
+### 4. Verify the Value of the Game
+Once you have these probabilities, you can find the value of the game ($V$) by multiplying the payoffs by their respective probabilities:
+$$V = \frac{(5 \times 9) + (-4 \times 8)}{9 + 8} = \frac{45 - 32}{17} = \frac{13}{17} \approx 0.76$$
+(As shown at 20:01).
+
+**Summary of the logic:**
+The ""oddments"" are the differences between the payoffs in the columns. You use the difference of the first column to find the probability of the first row, and the difference of the second column to find the probability of the second row."
+Can every payoff matrix be reduced to a 2×2 matrix?,"The video explains that the **dominance property** allows you to reduce the size of a payoff matrix by eliminating rows or columns that are objectively inferior (0:41-0:56). While the examples provided in the video successfully reduce matrices to a 2×2 format to solve for mixed strategies (18:04-18:12), the transcript does not explicitly state that *every* possible game matrix can be reduced to this specific 2×2 size using dominance alone.","The excerpt you provided is **partly relevant**. It explains the techniques used to reduce a payoff matrix—specifically the **Dominance Property** and the **Average Method**—but it does not explicitly state whether every matrix can be reduced to a 2×2 size.
+
+To answer your question: **No, not every payoff matrix can be reduced to a 2×2 matrix.**
+
+Here is the step-by-step reasoning based on the lecture and game theory principles:
+
+### 1. How reduction works (from the lecture)
+The lecturer explains that we reduce a matrix by identifying and eliminating ""dominated"" strategies. 
+*   **Row Reduction:** You delete a row if all its elements are lesser than or equal to the corresponding elements of another row (01:10). The logic is that a rational player wouldn't choose a row that is strictly worse than another option.
+*   **Column Reduction:** You delete a column if all its elements are greater than or equal to the corresponding elements of another column (01:10). 
+*   **The Average Method:** If you can't find a single row/column that dominates another, the lecturer explains you can compare one row/column against the **average** of two or more others (02:04). If a row is lesser than or equal to the average of others, it can be eliminated.
+
+### 2. Why some matrices cannot be reduced
+The reason not every matrix can reach a 2×2 size is that **dominance is not always present.** 
+
+Reduction only works if there is a ""suboptimal"" strategy that is clearly worse than another. If a game is designed such that every strategy is ""competitive"" (meaning no strategy is dominated by another single strategy or by an average of others), the matrix is already in its simplest form.
+
+**Example:**
+Imagine a 3×3 matrix where every row is unique and no row is ""worse"" than another. 
+*   Row 1: [3, 2, 1]
+*   Row 2: [1, 3, 2]
+*   Row 3: [2, 1, 3]
+
+In this case:
+1.  **Dominance Property:** No row is strictly less than or equal to another row.
+2.  **Average Method:** If you average Row 1 and Row 2, you get [2, 2.5, 1.5]. Row 3 [2, 1, 3] is not lesser than or equal to this average (because 3 is greater than 1.5).
+
+Because no row or column can be eliminated using the rules provided in your lecture, this 3×3 matrix is the simplest form. You cannot force it into a 2×2 matrix without losing the actual strategic information of the game.
+
+### Summary for your notes:
+*   **Can it always be reduced?** No.
+*   **When can it be reduced?** Only when a strategy is **dominated** (worse than another) or **sub-optimal** (worse than an average of others).
+*   **What if it can't be reduced?** If you apply the Dominance Property and the Average Method and no more rows or columns can be deleted, the matrix is in its simplest form, and you must solve it as it is (e.g., using the method of oddments for a 3×3 or larger matrix)."
+How do these concepts apply to real-world competitive business scenarios?,The provided video focuses specifically on the **mathematical procedures** for solving Game Theory problems using the **dominance property** and **mixed strategy oddment calculations** within an Operations Research context (0:04-0:35). It does not contain information or examples regarding the application of these concepts to real-world competitive business scenarios.,"While the lecture excerpt focuses on the mathematical mechanics of solving a payoff matrix (calculating row minimums, column maximums, and mixed strategy probabilities), these concepts are the foundation of **Game Theory**, which is used extensively in competitive business.
+
+Here is how these specific concepts apply to real-world business:
+
+### 1. The Dominance Property: Eliminating Suboptimal Choices
+In the lecture, the dominance property is used to ""cancel"" strategies that are objectively worse than others (05:30). 
+
+**In Business:** This is used for **Product Positioning and Pricing**. 
+Imagine a company has two potential marketing campaigns. If Campaign A consistently results in lower reach and higher costs than Campaign B, regardless of what the competitor does, Campaign A is ""dominated."" A business uses this logic to prune their options early, ensuring they don't waste resources on strategies that are mathematically guaranteed to underperform compared to an available alternative.
+
+### 2. Minimax and Maximin: Risk Management
+The lecture shows how to find the ""Maximin"" (the best of the worst-case scenarios) (05:29).
+
+**In Business:** This is the core of **Risk Mitigation**. 
+When a company enters a volatile market (like a new tech sector), they often look for the ""Maximin"" strategy—the move that guarantees a ""floor"" of profit even if the market reacts poorly. For example, a company might choose a conservative expansion plan that ensures they stay solvent even if a competitor launches a superior product, rather than a high-risk ""all-in"" strategy that could lead to bankruptcy.
+
+### 3. Mixed Strategies: Maintaining Unpredictability
+The latter half of the lecture (13:03) discusses ""Mixed Strategies,"" where a player chooses between options with certain probabilities (e.g., the 0.76 value mentioned at 20:01).
+
+**In Business:** This is used for **Competitive Strategy and ""Bluffing.""**
+If a company always follows a predictable pattern—for example, always launching a new product in October—a competitor can perfectly time their counter-move to undercut your price. 
+*   **The Application:** By using a **Mixed Strategy**, a company might randomize its launch dates or vary its discount types (e.g., sometimes offering ""Buy One Get One"" and sometimes ""50% off""). By making their behavior less predictable, they prevent competitors from perfectly modeling their behavior, which protects their market share.
+
+### Summary Table: From Math to Market
+| Lecture Concept | Mathematical Action | Business Application |
+| :--- | :--- | :--- |
+| **Dominance Property** | Deleting a row/column that is always worse. | Eliminating inefficient products or high-cost, low-reach ads. |
+| **Maximin/Minimax** | Finding the best ""worst-case"" outcome. | Choosing a ""safe"" expansion plan to guarantee survival. |
+| **Mixed Strategy** | Assigning probabilities to different moves. | Varying pricing or launch dates to remain unpredictable to rivals. |"

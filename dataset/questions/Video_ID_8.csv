@@ -1,0 +1,262 @@
+Questions,Model A,Model B
+Why is the replication process semi-conservative instead of conservative or dispersive?,"The video explains that DNA replication is **semi-conservative** because each new DNA molecule retains one original (old) strand and contains one newly synthesized strand. This is illustrated by showing that after replication, each of the two new copies consists of one red strand, representing the original template, and one blue strand, representing the new material (0:14 - 0:41).","The excerpt you provided covers this topic directly by defining semi-conservative replication and mentioning the other two models (conservative and dispersive) as alternatives (10:56).
+
+To answer your question: DNA replication is **semi-conservative** because of the physical way the enzymes ""unzip"" and ""build"" the DNA. 
+
+Here is the breakdown of the three models and why the semi-conservative one is what actually happens in nature.
+
+### 1. The Three Models Defined
+Imagine you have a ""parent"" DNA molecule made of two strands: a **Red** strand and a **Blue** strand.
+
+*   **Conservative:** The original Red-Blue molecule stays completely intact. A brand new Red-Blue molecule is built from scratch. (Result: 1 original, 1 entirely new).
+*   **Dispersive:** The original Red-Blue molecule is chopped into pieces. New pieces are mixed in with the old pieces. (Result: 2 molecules that are ""mosaics"" of old and new).
+*   **Semi-conservative:** The two strands of the original molecule are separated. Each strand serves as a template to build a new partner. (Result: 2 molecules, each containing one original strand and one new strand).
+
+### 2. Why it is Semi-conservative (The ""Why"")
+The reason nature uses the semi-conservative method is due to the specific way **Helicase** and **DNA Polymerase** work together:
+
+1.  **Unzipping:** Helicase breaks the hydrogen bonds between the two strands (11:03). This separates the ""Red"" strand from the ""Blue"" strand.
+2.  **Template Use:** Because the strands are now separate, each one acts as a physical template. 
+3.  **Building:** DNA Polymerase cannot ""create"" a strand out of thin air; it can only add new nucleotides to a growing chain by ""reading"" the sequence of a template strand. 
+
+Because the enzyme is forced to build a new strand directly opposite an existing old strand, the result is mathematically and physically required to be semi-conservative. As the lecturer noted at (00:00), ""Each new strand retains one original copy, and it has one new copy.""
+
+**A simple visualization:**
+*   **Start:** Red strand + Blue strand
+*   **Action:** Helicase separates them.
+*   **Synthesis:** 
+    *   New Blue strand is built against the old Red strand.
+    *   New Red strand is built against the old Blue strand.
+*   **End:** 
+    *   Molecule 1: Old Red + New Blue
+    *   Molecule 2: Old Blue + New Red
+
+This is why we call it ""semi-conservative""—half of the ""parent"" DNA is conserved in each of the two ""daughter"" molecules."
+How do DNA strands remain stable if they are antiparallel and running in opposite directions?,"The stability of the DNA double helix, despite its **antiparallel** nature, is maintained by **hydrogen bonds** that connect the complementary nucleotide base pairs. (2:05 - 2:36)
+
+The video specifies that these hydrogen bonds act as the stabilizing force holding the two strands together: 
+
+* **Adenine (A)** pairs with **Thymine (T)** via **two** hydrogen bonds. 
+* **Guanine (G)** pairs with **Cytosine (C)** via **three** hydrogen bonds. (2:15 - 2:30)","The excerpt you provided is highly relevant because it explains the two key properties that allow DNA to be stable despite being antiparallel: **complementary base pairing** and **hydrogen bonding**.
+
+To answer your question: DNA strands remain stable because, while the ""backbones"" of the strands run in opposite directions, the internal ""rungs"" of the DNA ladder are perfectly aligned to bond with one another.
+
+Here is the step-by-step breakdown of how this works:
+
+### 1. Understanding ""Antiparallel""
+As the lecturer mentions, DNA strands are **antiparallel**, meaning they run in opposite directions (one 5' to 3', the other 3' to 5') (00:00). Think of this like a two-lane highway where the lanes run in opposite directions. Even though the cars are moving in opposite directions, the lanes themselves are still side-by-side and perfectly aligned.
+
+### 2. Complementary Base Pairing
+The stability doesn't come from the direction of the strands, but from the **complementary base pairing** (01:49). Because the strands are oriented in opposite directions, the nitrogenous bases on one strand are positioned perfectly to ""face"" the bases on the opposite strand.
+
+The lecturer provides a specific rule for this:
+*   **A** always pairs with **T**
+*   **G** always pairs with **C** (16:13)
+
+### 3. The ""Glue"": Hydrogen Bonds
+The actual physical stability—the ""glue"" that keeps the two strands from drifting apart—comes from **hydrogen bonds** (01:49). These are weak chemical bonds that, when occurring in large numbers across the length of the DNA, provide significant stability.
+
+The lecturer notes the specific strengths of these bonds (16:13):
+*   **A-T pairs** are held together by **two** hydrogen bonds.
+*   **G-C pairs** are held together by **three** hydrogen bonds.
+
+### Summary Example
+Imagine two people holding hands to form a ladder. If one person faces North and the other faces South, they are ""antiparallel."" However, they can still hold hands perfectly because their hands are reaching toward each other. 
+
+In DNA:
+*   The **backbones** are the people (running in opposite directions).
+*   The **bases** are the hands reaching out.
+*   The **hydrogen bonds** are the grip that keeps them joined.
+
+Because the bases are complementary, they ""fit"" together like puzzle pieces regardless of which way the backbone is pointing."
+Why does adenine pair only with thymine and guanine only with cytosine?,"The video explains that **complementary base pairing** is a fundamental rule in DNA replication. This process is driven by the specific formation of **hydrogen bonds** between nitrogenous bases (1:07 - 2:04). 
+
+* **Adenine (A) and Thymine (T):** These bases pair together specifically because they are held by **two hydrogen bonds** (2:15 - 2:20). 
+* **Guanine (G) and Cytosine (C):** These bases pair together because they are linked by **three hydrogen bonds** (2:20 - 2:30). 
+
+Because these specific bonding patterns are required to stabilize the DNA structure, the nucleotides can only pair in these set combinations (1:34 - 1:54).","This excerpt is **partly relevant**. It identifies the ""what"" (A pairs with T, G pairs with C) and the ""how"" (hydrogen bonds), but it doesn't explain the underlying chemical and structural reasons ""why"" these specific pairs are the only ones that work.
+
+To answer your question, the reason these specific pairs occur comes down to two main factors: **chemical compatibility** and **geometric fit**.
+
+### 1. Chemical Compatibility (Hydrogen Bonding)
+As your lecturer mentioned, hydrogen bonds are what hold the two strands together (01:02, 02:04). However, not just any two bases can form these bonds. 
+
+Think of hydrogen bonds like a ""lock and key"" system. For a bond to form, the ""donors"" (atoms with a hydrogen atom) and ""acceptors"" (atoms with an available electron pair) must line up perfectly.
+*   **Adenine (A) and Thymine (T)** have a specific arrangement of atoms that allows them to form exactly **two** hydrogen bonds.
+*   **Guanine (G) and Cytosine (C)** have an arrangement that allows them to form **three** hydrogen bonds.
+
+If you tried to pair Adenine with Cytosine, the ""hooks"" wouldn't line up correctly. They would repel each other or simply fail to bond because the atoms aren't in the right positions to share those hydrogen bonds.
+
+### 2. Geometric Fit (The ""Purine-Pyrimidine"" Rule)
+Even if two bases could form a few hydrogen bonds, they must also fit into the ""ladder"" of the DNA double helix. DNA has a very consistent width. To maintain this width, the cell follows a strict rule: **a large base must always pair with a small base.**
+
+Nitrogenous bases come in two sizes:
+*   **Purines (Large):** Adenine (A) and Guanine (G) have a double-ring structure.
+*   **Pyrimidines (Small):** Thymine (T) and Cytosine (C) have a single-ring structure.
+
+**Here is why the other combinations don't work:**
+*   **If you paired two Purines (A + G):** The two double-ring structures would be too wide, causing a ""bulge"" in the DNA strand.
+*   **If you paired two Pyrimidines (T + C):** The two single-ring structures would be too narrow, leaving a gap in the ""ladder.""
+
+**The Result:**
+Because **A (Large)** only fits perfectly with **T (Small)** and **G (Large)** only fits perfectly with **C (Small)**, these are the only stable pairs that allow the DNA to maintain its uniform shape and chemical stability."
+What is the specific structural difference in the number of hydrogen bonds between A-T and G-C pairs?,"The video explains that **hydrogen bonds** are responsible for holding the two DNA strands together. The structural difference in the number of these bonds is as follows:
+
+* **Adenine (A) and Thymine (T):** These bases are held together by **two hydrogen bonds** (2:15 - 2:20). 
+* **Guanine (G) and Cytosine (C):** These bases are linked by **three hydrogen bonds** (2:20 - 2:30).","The specific structural difference is the number of hydrogen bonds that hold each pair of nucleotides together:
+
+*   **Adenine (A) and Thymine (T)** are held together by **two** hydrogen bonds (01:02, 02:04, 16:13).
+*   **Guanine (G) and Cytosine (C)** are held together by **three** hydrogen bonds (01:02, 02:04, 16:13).
+
+These hydrogen bonds are the specific forces that hold the two strands of the DNA double helix together (01:02). Because G-C pairs have three bonds while A-T pairs only have two, G-C pairs are slightly stronger and require more energy to break than A-T pairs."
+Why is topoisomerase necessary? Can helicase simply move forward without removing torsional strain?,"The video explains that as **helicase** separates the two DNA strands, it creates **torsional strain**—or tension—ahead of the replication fork (3:50 - 3:59). 
+
+**Topoisomerase** (also referred to as **DNA gyrase**) is necessary because it relieves this tension and prevents the formation of **positive supercoiling** (4:02 - 4:17). If this strain were not removed, the mechanical pressure would build up, preventing helicase from effectively continuing to separate the strands (3:53 - 4:15).","The excerpt you provided directly addresses this. The lecturer explains that as helicase separates the two strands, **torsional strain** is created ahead of the replication fork (03:13).
+
+To answer your question: No, helicase cannot simply move forward indefinitely without topoisomerase. Here is the step-by-step reasoning:
+
+### 1. The ""Twisted Rope"" Problem
+Think of DNA as a twisted rope or a coiled telephone cord. If you grab the two ends of a twisted rope and try to pull them apart in the middle, the part of the rope you haven't pulled yet doesn't just stay the same—it becomes tighter and tighter. 
+
+In DNA, this ""tightening"" is called **positive supercoiling**. Because the DNA is a double helix, unwinding it at one point (the replication fork) forces the rest of the helix to over-twist.
+
+### 2. The Physical Limit
+If helicase were to move forward without any help, the DNA ahead of it would become so tightly knotted and overwound that it would eventually become physically impossible to unzip. The ""tension"" or **torsional strain** would become so great that helicase would stall, and replication would stop.
+
+### 3. The Solution: Topoisomerase
+This is where **topoisomerase** (specifically **DNA gyrase** in some contexts) comes in. As the lecturer notes, these enzymes are needed to ""reduce the torsional strain and even relieve positive supercoils"" (03:13).
+
+They act like a pressure-release valve:
+1. They cut one or both strands of the DNA ahead of the fork.
+2. They allow the DNA to rotate or relax, which releases the built-up tension.
+3. They then reseal the strands.
+
+By doing this, topoisomerase ""clears the path"" so that helicase can continue to move forward smoothly (16:13)."
+What would happen if single-stranded binding (SSB) proteins were not present during replication?,"The video explains that **single-stranded binding (SSB) proteins** are essential during DNA replication because they stabilize the separated DNA strands and prevent them from ""snapping back together"" (4:30-4:47). If these proteins were not present, the two strands would likely re-anneal (re-bond) prematurely, which would hinder the replication machinery from effectively copying the genetic material.","This excerpt directly addresses the role of SSB proteins, so I can use the lecturer's specific framing to answer your question.
+
+If single-stranded binding (SSB) proteins were not present during replication, two main things would happen:
+
+**1. The DNA strands would ""snap back together""**
+The lecturer explains that as helicase breaks the hydrogen bonds to separate the two strands, the SSB proteins ""stabilize the two strands, preventing them from snapping back together"" (03:13, 17:16). 
+
+Because DNA naturally wants to stay in a double-stranded state, the moment helicase opens the replication fork, the strands would immediately re-anneal (zip back together) if no proteins were there to hold them open. If the strands snap back together, DNA polymerase would be unable to access the template strand to synthesize the new DNA, and replication would come to a halt.
+
+**2. The strands would be vulnerable to ""cleavage""**
+The lecturer also notes that SSB proteins ""protect the two strands from cleavage"" (03:13, 17:16). Single-stranded DNA is much more chemically unstable and physically fragile than double-stranded DNA. Without the protection provided by SSB proteins, the exposed strands would be at high risk of being broken or degraded by other enzymes or physical stress before they could be copied.
+
+**Summary Example:**
+Think of the replication fork like a zipper being opened. Helicase is the hand pulling the zipper apart. The SSB proteins act like tiny ""spacers"" that keep the teeth of the zipper from clicking back together while the ""sewing machine"" (DNA polymerase) works on the fabric. Without those spacers, the zipper would just keep closing, and the sewing machine would have nothing to work on."
+Why must DNA polymerase III have an RNA primer to begin synthesizing a new strand?,"The video explains that **DNA polymerase III** requires an **RNA primer** because it cannot initiate the synthesis of a new DNA strand on its own (5:09 - 5:12). The primer, which is created by the enzyme **primase**, acts as a starting point that provides a sequence of RNA nucleotides for DNA polymerase III to recognize and attach to before it begins building the new strand in the 5' to 3' direction (4:53 - 5:41).","The excerpt you provided confirms that DNA replication requires an RNA primer to begin and that DNA polymerase III starts synthesizing the new strand once it ""sees"" that primer (04:18). However, it doesn't explain the underlying biochemical reason *why* it needs one.
+
+The short answer is: **DNA polymerase III is chemically incapable of starting a new strand from scratch; it can only add nucleotides to an existing chain.**
+
+Here is the step-by-step reasoning:
+
+### 1. The ""Hook"" Requirement
+To build a DNA strand, DNA polymerase III needs a ""hook"" to attach the first new nucleotide. Specifically, it requires a free **3'-hydroxyl (-OH) group**. 
+
+Think of DNA polymerase like a train that can only be coupled to another train. It cannot simply appear in the middle of the tracks; it must be attached to the car that came before it. The 3'-OH group acts as that ""coupling"" point.
+
+### 2. The Limitation of DNA Polymerase III
+Because DNA polymerase III can only add a nucleotide to an existing 3'-OH group, it cannot start a brand-new strand on a bare template of DNA. If there is no existing strand to ""hook"" onto, the enzyme has nowhere to attach the first nucleotide.
+
+### 3. The Solution: Primase
+This is why the lecture mentions **primase** (04:18). Since DNA polymerase III can't start the work, primase does. 
+
+*   **Primase** is a type of RNA polymerase. Unlike DNA polymerase, RNA polymerases *can* start a new strand from scratch.
+*   Primase lays down a short stretch of RNA (the **RNA primer**).
+*   This primer provides the necessary 3'-OH group.
+*   Once that ""hook"" is in place, **DNA polymerase III** can then take over and begin adding DNA nucleotides in the 5' to 3' direction (04:18).
+
+**Summary Example:**
+Imagine you are building a brick wall. 
+*   **DNA Polymerase III** is like a worker who can only lay a brick if there is already a brick underneath it to steady the new one.
+*   **Primase** is like a worker who places the very first brick on the ground. 
+*   Without that first brick (the **RNA primer**), the second worker (DNA Pol III) has nothing to start with."
+"Why can DNA polymerase only synthesize in the 5' to 3' direction, necessitating a lagging strand?","The video explains that **DNA polymerase III** is structurally constrained to only add new nucleotides in the **5' to 3' direction** (5:27 - 5:41). Because the two strands of the DNA double helix are **antiparallel**—meaning they run in opposite directions—the enzyme faces a challenge when replicating both strands simultaneously at the replication fork (0:49 - 1:07, 6:04 - 6:18). 
+
+This constraint leads to the **semi-discontinuous** nature of replication (5:49 - 6:00):
+
+*   **Leading Strand:** Synthesized **continuously** in the same direction as the movement of the replication fork, as the template strand allows for 5' to 3' synthesis (6:40 - 7:34). 
+*   **Lagging Strand:** Because the template runs in the opposite direction relative to the fork, DNA polymerase III must synthesize the new strand in short, **discontinuous** segments known as **Okazaki fragments** (6:40 - 7:05, 7:36 - 7:53, 9:00 - 9:08). 
+
+As the replication fork opens, new primers must be placed repeatedly on the lagging strand to allow the enzyme to work in the required 5' to 3' direction, moving away from the fork (7:05 - 7:22).","This excerpt is highly relevant as it explains the consequences of DNA polymerase's directionality on the formation of leading and lagging strands.
+
+### Why DNA polymerase only synthesizes in the 5' to 3' direction
+The short answer is that of a chemical requirement: **DNA polymerase can only attach a new nucleotide to a free 3' hydroxyl (-OH) group.**
+
+To build a DNA chain, the enzyme needs to catalyze a reaction where the phosphate group of an incoming nucleotide attaches to the 3' end of the existing chain. Because the ""hook"" (the -OH group) is only available at the 3' end, the chain can only grow in the 5' $\rightarrow$ 3' direction.
+
+### How this necessitates a lagging strand
+Because of this chemical limitation, the cell has to get creative when replicating the two strands of the DNA double helix. Here is the step-by-step logic based on your lecture:
+
+**1. The Antiparallel Problem**
+DNA strands are antiparallel, meaning they run in opposite directions (05:26). When the replication fork opens, one template strand is oriented 3' $\rightarrow$ 5' and the other is 5' $\rightarrow$ 3'.
+
+**2. The Leading Strand (The ""Easy"" Way)**
+On the template strand that runs 3' $\rightarrow$ 5' toward the replication fork, DNA Polymerase III can simply follow the fork as it opens. It adds nucleotides in the 5' $\rightarrow$ 3' direction, moving in the same direction as the fork (05:26, 06:28). This is **continuous** synthesis.
+
+**3. The Lagging Strand (The ""Workaround"")**
+The other template strand runs 5' $\rightarrow$ 3' toward the fork. If the polymerase tried to move in the same direction as the fork, it would be trying to synthesize in the 3' $\rightarrow$ 5' direction, which is chemically impossible. 
+
+To solve this, the cell synthesizes this strand in the **opposite direction** of the replication fork (05:26, 06:28). 
+
+**A Concrete Example:**
+Imagine you are sewing a seam along a zipper that is being unzipped from left to right.
+*   **Leading Strand:** You are sewing from left to right. As the zipper opens, you just keep sewing forward. You never have to stop.
+*   **Lagging Strand:** You can only sew from right to left. As the zipper opens a little bit more to the right, you have to ""jump"" back to the new opening and sew a short segment toward the left. You then jump back again to the new opening and sew another segment. 
+
+These short segments are the **Okazaki fragments** mentioned in your lecture (07:37). Because the polymerase has to keep ""jumping back"" and starting over as the fork opens, the synthesis is **discontinuous**.
+
+**Summary of the ""Semi-Discontinuous"" nature:**
+As your lecturer noted, the prefix ""semi"" means half (06:28). DNA replication is ""semi-discontinuous"" because one half (the leading strand) is continuous, while the other half (the lagging strand) is discontinuous."
+"How does DNA ligase recognize the specific location between Okazaki fragments to seal the ""nick""?","The video explains that after **DNA polymerase I** removes the RNA primers and replaces them with DNA material, there remain small gaps or ""nicks"" between the segments known as **Okazaki fragments** (8:34 - 9:08). **DNA ligase** then acts as the enzyme responsible for sealing these nicks (9:13 - 9:18).","This excerpt is **partly relevant**. It explains the sequence of events—specifically that DNA Polymerase I replaces the RNA primer with DNA material, leaving ""spaces"" or ""nicks"" between Okazaki fragments, which DNA ligase then seals (08:47, 09:56). However, the lecture does not explain the biochemical mechanism of how the ligase ""recognizes"" these spots.
+
+To answer your question: DNA ligase doesn't ""search"" for a specific landmark or sequence; instead, it recognizes a specific **chemical structure** in the DNA backbone.
+
+### The ""Nick"" is a Chemical Break
+When the lecturer mentions that DNA Polymerase I replaces the RNA primer with DNA (09:56), it creates a specific situation. Imagine the DNA backbone as a chain of links. A ""nick"" is not a missing piece of information (a missing base); it is a **broken link** in the phosphate-sugar backbone.
+
+Specifically, at the site of a nick, you have:
+1.  A **3'-OH (hydroxyl group)** at the end of one DNA fragment.
+2.  A **5'-phosphate group** at the beginning of the next fragment.
+
+### How Ligase ""Recognizes"" the Spot
+DNA ligase is designed to bind specifically to these two adjacent ends. It doesn't need to ""know"" where the Okazaki fragment ends because it only ""fits"" onto a spot where the backbone is broken but the bases are already perfectly aligned.
+
+Think of it like a **stapler**:
+*   The ""paper"" (the nitrogenous bases) is already lined up perfectly because they were paired correctly by DNA Polymerase III and I.
+*   The ""staple"" (the phosphodiester bond) is missing.
+*   The stapler (DNA ligase) only works when it finds two edges of paper that are side-by-side but not joined.
+
+### The Step-by-Step Process:
+1.  **Preparation:** DNA Polymerase I removes the RNA primer and fills the gap with DNA (08:47). This leaves the 3'-OH and 5'-phosphate ends right next to each other.
+2.  **Binding:** DNA ligase identifies these two specific chemical groups (the 3'-OH and 5'-phosphate).
+3.  **Catalysis:** Ligase facilitates a chemical reaction that joins the 3'-OH of the first fragment to the 5'-phosphate of the next fragment, creating a continuous phosphodiester bond.
+
+**Summary for your notes:**
+DNA ligase recognizes the **chemical signature of a broken phosphodiester bond** (a 3'-OH adjacent to a 5'-phosphate) rather than a specific genetic sequence. It ""seals the nick"" by physically reconnecting the backbone of the Okazaki fragments."
+How does the proofreading mechanism of DNA polymerase I and III differentiate between a correct and incorrect nucleotide?,"The video explains that both DNA polymerase I and III possess **3' to 5' exonuclease activity**, which functions as a proofreading mechanism (9:30 - 9:55). When a mistake occurs during the synthesis of a new DNA strand, the enzyme can stop, remove the incorrect nucleotide, and replace it with the correct one (9:55 - 10:07). While the video notes this ability to fix errors, it does not detail the specific molecular or biochemical sensors used by the enzymes to identify the mismatch (9:30 - 10:10).","The excerpt you provided identifies the specific enzyme activity responsible for proofreading—the **3' to 5' exonuclease activity**—but it doesn't explain the physical mechanism of how the polymerase ""knows"" a nucleotide is wrong.
+
+To answer your question: DNA polymerase differentiates between correct and incorrect nucleotides primarily through **geometric fit** and **hydrogen bonding**.
+
+Here is the step-by-step breakdown of how that works:
+
+### 1. The ""Perfect Fit"" (Geometric Selection)
+When DNA Polymerase III (or I) is building a new strand, it holds the template strand and the incoming nucleotide in an active site. A ""correct"" nucleotide (e.g., a Guanine pairing with a Cytosine) has a specific width and chemical structure that allows it to form stable hydrogen bonds. This creates a perfect geometric fit within the enzyme's active site.
+
+### 2. The Mismatch (Structural Distortion)
+If an ""incorrect"" nucleotide tries to bind (e.g., an Adenine trying to pair with a Cytosine), the hydrogen bonds won't align correctly. Because the shapes don't match, the DNA double helix becomes **distorted**. It might bulge or kink because the ""wrong"" base is physically too wide or too narrow to sit correctly in the groove.
+
+### 3. The ""Stall""
+This is the crucial moment for proofreading. Because of that physical distortion, the **3' end** of the growing strand is no longer positioned correctly in the polymerization active site. It is essentially ""out of alignment,"" making it chemically impossible for the polymerase to add the next nucleotide. The enzyme ""stalls.""
+
+### 4. The ""Backspace"" (3' to 5' Exonuclease)
+As mentioned in your lecture (08:47), when the enzyme stalls due to a mismatch, the 3' end of the growing strand ""frays"" (detaches slightly) and shifts into a different part of the enzyme called the **exonuclease active site**. 
+
+Think of it like a ""backspace"" key:
+*   **The Exonuclease:** This site specifically clips off the last nucleotide from the 3' end (moving in the 3' to 5' direction).
+*   **The Reset:** Once the incorrect nucleotide is removed, the 3' end moves back into the polymerization site, and the enzyme tries to insert the correct nucleotide again.
+
+**Summary Example:**
+Imagine a zipper. If you try to force a tooth from a different zipper into the middle, it won't line up. The ""stalling"" is the zipper getting stuck. The **3' to 5' exonuclease** is the action of unzipping that one stuck tooth so you can try to put the correct one in."

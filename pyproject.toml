@@ -1,0 +1,16 @@
+[project]
+name = "lvlm-benchmarking"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "decord>=0.6.0",
+    "gdown>=6.4.0",
+    "opencv-python>=5.0.0.93",
+    "pandas>=3.0.6",
+    "torch>=2.14.0",
+    "torchvision>=0.29.0",
+    "tqdm>=4.70.1",
+    "transformers>=5.17.0",
+]

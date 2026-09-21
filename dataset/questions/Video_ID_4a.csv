@@ -1,0 +1,380 @@
+Questions,Model A,Model B
+Why is the matrix equation ((A - \lambda I)X = 0) used?,"The equation $(A - \lambda I)X = 0$ is the foundational starting point for finding eigenvalues and eigenvectors of a matrix (0:57). 
+
+Here is how the variables function in this context:
+* **$A$**: Represents your given square matrix (1:16).
+* **$\lambda$**: Represents the eigenvalue, a constant scalar value (1:27, 6:13).
+* **$I$**: Represents the **identity matrix**, which has ones on the diagonal and zeros elsewhere, used to allow the subtraction of a scalar $\lambda$ from matrix $A$ (1:35).
+* **$X$**: Represents the unknown **eigenvector** matrix that you are trying to solve for (1:50).
+
+By setting the expression equal to the **null matrix** ($0$), you create a homogeneous system of linear equations. Solving this system allows you to identify specific values of $\lambda$ (eigenvalues) for which non-zero vectors $X$ (eigenvectors) exist, effectively showing how the matrix transformation scales space along specific directions.","The matrix equation $(A - \lambda I)X = O$ is used because it is the algebraic rearrangement of the fundamental definition of an **eigenvector**.
+
+Here is the step-by-step reasoning:
+
+### 1. The Starting Definition
+By definition, an eigenvector $X$ is a non-zero vector that, when multiplied by a matrix $A$, results in a vector that is simply a scaled version of itself. The scaling factor is the eigenvalue $\lambda$. Mathematically, this is written as:
+$$AX = \lambda X$$
+*(In your lecture, $A$ is the given matrix, $\lambda$ is the eigenvalue, and $X$ is the unknown vector/matrix you are trying to find.)*
+
+### 2. The Algebraic Rearrangement
+To solve for $X$, we need to group all terms involving $X$ on one side of the equation. 
+1. Subtract $\lambda X$ from both sides:
+   $$AX - \lambda X = O$$
+2. To factor out the $X$, we need the second term to be a matrix multiplication. Since $\lambda$ is a scalar (a constant) and $X$ is a matrix/vector, we multiply $\lambda$ by the Identity matrix ($I$). As the lecturer notes, the Identity matrix $I$ has ones on the diagonal and zeros elsewhere, so $\lambda I$ is a matrix with $\lambda$ on the diagonal (01:17).
+   $$AX - \lambda IX = O$$
+3. Now, we can factor out the $X$:
+   $$(A - \lambda I)X = O$$
+
+### 3. Why do we want it in this form?
+The goal of finding eigenvectors is to find a **non-zero** $X$ that satisfies this equation. 
+
+If the matrix $(A - \lambda I)$ were ""invertible"" (meaning it had a unique inverse), the only solution would be $X = O$ (the null matrix). However, we are looking for a non-zero vector. For a non-zero $X$ to exist, the matrix $(A - \lambda I)$ must be **singular** (non-invertible). 
+
+A matrix is singular if and only if its determinant is zero. This leads directly to the next step in your lecture:
+$$|A - \lambda I| = 0$$
+*(09:03)*
+
+By setting the determinant to zero, you find the values of $\lambda$ (the eigenvalues). Once you have $\lambda$, you plug it back into $(A - \lambda I)X = O$ to solve for the specific components of $X$ (the eigenvectors), which the lecturer demonstrates using Kramer's rule (13:04).
+
+**Summary of the logic flow:**
+Definition ($AX = \lambda X$) $\rightarrow$ Rearrangement ($(A - \lambda I)X = O$) $\rightarrow$ Determinant condition ($|A - \lambda I| = 0$) $\rightarrow$ Solve for $\lambda$ $\rightarrow$ Solve for $X$."
+What does the identity matrix (I) represent in this calculation?,"In the context of the eigenvalue equation $(A - \lambda I)X = 0$, the **identity matrix** ($I$) serves a specific mathematical purpose (1:35). 
+
+* **Mathematical Role:** It acts as a bridge that allows you to subtract a scalar value (the eigenvalue, $\lambda$) from a matrix (the given matrix, $A$). Since you cannot directly subtract a number from a matrix, multiplying the scalar $\lambda$ by the identity matrix $I$ creates a matrix of the same dimensions as $A$, where $\lambda$ appears on the main diagonal and zeros appear elsewhere (4:49-5:09).
+* **Definition:** The identity matrix is a square matrix that has **unity (1)** on all its diagonal elements and **zeros** for all other entries (1:43). 
+
+By performing this operation, you transform the original system into the **characteristic matrix** $A - \lambda I$, which is the fundamental step required to solve for the eigenvalues (4:02).","The identity matrix ($I$) serves as the matrix equivalent of the number **1** in standard arithmetic.
+
+In this calculation, its primary purpose is to allow you to subtract the eigenvalue ($\lambda$) from the matrix $A$. Here is the step-by-step reasoning:
+
+### 1. The Problem: You can't subtract a number from a matrix
+In basic algebra, if you have a variable $x$ and you want to subtract 5, you simply write $x - 5$. However, in linear algebra, you cannot directly subtract a single number (a scalar) from a matrix. You cannot perform ""Matrix $-$ Number"" because they are different types of mathematical objects.
+
+### 2. The Solution: Using the Identity Matrix
+To subtract the eigenvalue $\lambda$ from the diagonal of matrix $A$, we must first turn $\lambda$ into a matrix of the same size. This is where the identity matrix $I$ comes in. 
+
+As the lecturer notes, the identity matrix is a matrix where the diagonal elements are ""unity"" (1) and all other elements are zero (01:17). When you multiply the scalar $\lambda$ by the identity matrix $I$, you create a matrix that has $\lambda$ on the diagonal and zeros everywhere else:
+
+$$\lambda I = \begin{bmatrix} \lambda & 0 & 0 \\ 0 & \lambda & 0 \\ 0 & 0 & \lambda \end{bmatrix}$$
+
+### 3. The Result
+By using $\lambda I$, the equation $(A - \lambda I)$ becomes mathematically valid. When you perform the subtraction, the zeros in $\lambda I$ ensure that the non-diagonal elements of matrix $A$ remain unchanged, while the $\lambda$ values are subtracted only from the diagonal (04:44).
+
+**Example from the lecture:**
+The lecturer starts with matrix $A$:
+$$A = \begin{bmatrix} 1 & 0 & -1 \\ 1 & 2 & 1 \\ 2 & 2 & 3 \end{bmatrix}$$
+
+By subtracting $\lambda I$, the calculation becomes:
+$$\begin{bmatrix} 1 & 0 & -1 \\ 1 & 2 & 1 \\ 2 & 2 & 3 \end{bmatrix} - \begin{bmatrix} \lambda & 0 & 0 \\ 0 & \lambda & 0 \\ 0 & 0 & \lambda \end{bmatrix} = \begin{bmatrix} 1-\lambda & 0 & -1 \\ 1 & 2-\lambda & 1 \\ 2 & 2 & 3-\lambda \end{bmatrix}$$
+
+This allows the lecturer to then find the determinant of this new matrix to solve for the eigenvalues (06:13)."
+How is the characteristic equation derived from the determinant?,"The **characteristic equation** is derived from the determinant of the matrix $(A - \lambda I)$ set equal to zero (4:02). This equation helps identify the **eigenvalues** ($\lambda$) of the matrix.
+
+### The Derivation Process:
+1. **Setup the Matrix**: Start with the matrix $(A - \lambda I)$, which is obtained by subtracting the eigenvalue $\lambda$ from every element on the main diagonal of matrix $A$ (5:14-5:42).
+2. **Calculate the Determinant**: You evaluate the determinant of this new matrix. For a 3x3 matrix, this involves expanding the determinant along a row or column (10:24-11:22).
+3. **Form the Polynomial**: As the expansion progresses, it naturally results in a cubic polynomial in terms of $\lambda$ (the characteristic polynomial). Setting this expression equal to zero yields the characteristic equation (7:06).
+
+### Simplified Formula:
+Rather than manual expansion, you can use the standard form for a 3x3 matrix:
+$$\lambda^3 - (\text{sum of diagonal elements})\lambda^2 + (\text{sum of diagonal minors})\lambda - \det(A) = 0$$
+
+Using this formula (6:31-7:03) significantly reduces calculation time, as it bypasses the lengthy manual expansion of the 3x3 determinant.","The characteristic equation is derived by calculating the **determinant** of the matrix $(A - \lambda I)$ and setting that determinant equal to zero.
+
+In your lecture, the lecturer explains that while you can use a shortcut formula, that formula exists specifically because it is the simplified result of expanding this determinant (06:13).
+
+Here is the step-by-step derivation using the matrix provided in your notes:
+
+### 1. Set up the matrix $(A - \lambda I)$
+To find the eigenvalues, we start with the equation $|A - \lambda I| = 0$. This means we subtract $\lambda$ from each of the diagonal elements of matrix $A$. From the slide at [09:21], we have:
+$$A - \lambda I = \begin{bmatrix} 1-\lambda & 0 & -1 \\ 1 & 2-\lambda & 1 \\ 2 & 2 & 3-\lambda \end{bmatrix}$$
+
+### 2. Expand the Determinant
+To derive the equation, we calculate the determinant of this matrix. Expanding along the first row (as the lecturer suggests at [06:13]):
+
+$$|A - \lambda I| = (1-\lambda) \cdot \text{det}\begin{bmatrix} 2-\lambda & 1 \\ 2 & 3-\lambda \end{bmatrix} - 0 \cdot (\dots) + (-1) \cdot \text{det}\begin{bmatrix} 1 & 2-\lambda \\ 2 & 2 \end{bmatrix} = 0$$
+
+### 3. Simplify the terms
+Now, we solve the $2 \times 2$ determinants:
+*   **First part:** $(1-\lambda) \cdot [(2-\lambda)(3-\lambda) - (1 \cdot 2)]$
+    $= (1-\lambda) \cdot [\lambda^2 - 5\lambda + 6 - 2]$
+    $= (1-\lambda)(\lambda^2 - 5\lambda + 4)$
+    $= \lambda^2 - 5\lambda + 4 - \lambda^3 + 5\lambda^2 - 4\lambda$
+    $= -\lambda^3 + 6\lambda^2 - 9\lambda + 4$
+
+*   **Third part:** $(-1) \cdot [(1 \cdot 2) - (2 \cdot (2-\lambda))]$
+    $= -1 \cdot [2 - 4 + 2\lambda]$
+    $= -1 \cdot [2\lambda - 2]$
+    $= -2\lambda + 2$
+
+### 4. Combine to get the Characteristic Equation
+Add the parts together:
+$$(-\lambda^3 + 6\lambda^2 - 9\lambda + 4) + (-2\lambda + 2) = 0$$
+$$-\lambda^3 + 6\lambda^2 - 11\lambda + 6 = 0$$
+
+If we multiply the entire equation by $-1$ to make the leading term positive, we get:
+$$\lambda^3 - 6\lambda^2 + 11\lambda - 6 = 0$$
+
+### Conclusion
+This is exactly the equation shown in your notes at [12:31]. 
+
+The ""shortcut"" formula mentioned in the lecture—$\lambda^3 - (\text{sum of diagonals}) \lambda^2 + (\text{sum of minors}) \lambda - |A| = 0$—is simply a way to skip the manual expansion shown above. 
+*   **Sum of diagonals:** $1+2+3 = 6$
+*   **Sum of minors:** $4+5+2 = 11$ (calculated at [08:35])
+*   **Determinant $|A|$:** $6$ (calculated at [10:07])
+
+By using the formula, you get the same result ($\lambda^3 - 6\lambda^2 + 11\lambda - 6 = 0$) without having to do the long polynomial multiplication."
+What is the significance of the diagonal elements in finding eigenvalues?,"The diagonal elements of matrix $A$ are fundamental to finding eigenvalues because they form the core components of the **characteristic equation**.
+
+Their significance includes:
+
+1.  **Direct subtraction of $\lambda$**: To set up the system $(A - \lambda I) = 0$, you must subtract the eigenvalue $\lambda$ specifically from each **diagonal element** of the matrix (5:14-5:42).
+2.  **Calculation of the Trace**: The sum of these diagonal elements provides the coefficient for the $\lambda^2$ term in the characteristic polynomial, known as the **trace of the matrix** (8:39-8:51).
+3.  **Determination of Minors**: To find the linear term coefficient in the cubic characteristic equation, you must calculate the **sum of diagonal minors**. This involves finding the determinant of the smaller 2x2 matrices remaining after ignoring the row and column of each specific diagonal element (9:03-10:11).","The diagonal elements are significant because their sum (known as the **Trace** of the matrix) directly determines the coefficient of the second-highest power of $\lambda$ in the characteristic equation.
+
+In your lecture, the instructor uses a shortcut formula to find the eigenvalues of a $3 \times 3$ matrix without having to perform a full, lengthy determinant expansion every time.
+
+### How it works step-by-step:
+
+**1. The Characteristic Equation**
+To find eigenvalues, we start with the equation $(A - \lambda I)X = 0$. For a non-trivial solution to exist, the determinant of the matrix $(A - \lambda I)$ must be zero. When you expand this determinant for a $3 \times 3$ matrix, it results in a cubic polynomial:
+$$\lambda^3 - (\text{Sum of diagonal elements}) \lambda^2 + (\text{Sum of diagonal minors}) \lambda - |A| = 0$$
+
+**2. The Role of the Diagonal**
+The ""Sum of diagonal elements"" is the coefficient for the $\lambda^2$ term. This is a mathematical property: the sum of the eigenvalues of a matrix is always equal to the sum of the elements on its main diagonal.
+
+**3. Example from your lecture**
+The lecturer uses the matrix:
+$$A = \begin{bmatrix} 1 & 0 & -1 \\ 1 & 2 & 1 \\ 2 & 2 & 3 \end{bmatrix}$$
+
+*   **Identify the diagonal elements:** These are $1, 2,$ and $3$.
+*   **Calculate the sum:** $1 + 2 + 3 = 6$.
+*   **Apply to the formula:** As shown at **(08:35)** and **(12:25)**, the lecturer immediately writes the first part of the equation as:
+    $$\lambda^3 - 6\lambda^2 + \dots = 0$$
+
+By identifying these diagonal elements first, you can quickly build the characteristic equation, which makes solving for $\lambda$ much faster than calculating the full determinant from scratch."
+How are diagonal minors calculated for a 3×3 matrix?,"For a 3×3 matrix, calculating the **sum of diagonal minors** is a key step in finding the characteristic equation. Each diagonal element (the numbers running from the top-left to the bottom-right) has a corresponding 2×2 **minor** associated with it (9:03).
+
+To calculate the minor for a specific diagonal element, follow these steps:
+
+1. **Identify the element:** Select one of the three diagonal elements.
+2. **Cover rows and columns:** Imagine covering the entire row and the entire column that intersect at your chosen element (9:10).
+3. **Extract the 2×2 matrix:** The remaining four numbers form a smaller 2×2 square matrix.
+4. **Calculate the determinant:** Find the determinant of this 2×2 matrix by multiplying the diagonal elements and subtracting the product of the off-diagonal elements (9:18 - 9:52).
+
+Once you have found the determinant for each of the three diagonal elements, simply **add them together** to get the total sum used in the characteristic equation (10:05 - 10:11).","The excerpt you provided directly addresses how to calculate diagonal minors for a 3x3 matrix.
+
+To calculate the diagonal minors, you find the determinant of the $2 \times 2$ matrix that remains after you ""cover"" (ignore) the row and column of each diagonal element.
+
+Here is the step-by-step process based on the lecturer's explanation:
+
+### 1. Identify the Diagonal Elements
+In a 3x3 matrix, the diagonal elements are the values running from the top-left to the bottom-right. In the example used in the lecture, these elements are **1, 2, and 3** (08:35).
+
+### 2. Calculate each Minor
+For each of those three diagonal elements, you must find its specific minor:
+
+*   **Minor of the first diagonal element (1):** Cover the first row and the first column. Look at the remaining four numbers to form a $2 \times 2$ matrix. Calculate its determinant.
+    *   *Example from lecture:* The remaining elements were $\begin{pmatrix} 2 & 1 \\ 2 & 3 \end{pmatrix}$. The calculation is $(2 \times 3) - (1 \times 2) = 6 - 2 = \mathbf{4}$ (08:35).
+*   **Minor of the second diagonal element (2):** Cover the second row and the second column. Calculate the determinant of the remaining $2 \times 2$ matrix.
+    *   *Example from lecture:* The remaining elements were $\begin{pmatrix} 1 & -1 \\ 2 & 3 \end{pmatrix}$. The calculation is $(1 \times 3) - (-1 \times 2) = 3 + 2 = \mathbf{5}$ (08:35).
+*   **Minor of the third diagonal element (3):** Cover the third row and the third column. Calculate the determinant of the remaining $2 \times 2$ matrix.
+    *   *Example from lecture:* The remaining elements were $\begin{pmatrix} 1 & 0 \\ 1 & 2 \end{pmatrix}$. The calculation is $(1 \times 2) - (0 \times 1) = 2 - 0 = \mathbf{2}$ (08:35).
+
+### 3. Sum the Minors
+Finally, you add these three results together to get the ""sum of diagonal minors"" used in the characteristic equation:
+$$\text{Sum} = 4 + 5 + 2 = \mathbf{11}$$ (10:07).
+
+**Summary of the formula used:**
+The lecturer uses these values in the characteristic equation:
+$$\lambda^3 - (\text{sum of diagonal elements})\lambda^2 + (\text{sum of diagonal minors})\lambda - |A| = 0$$
+Using the values from the lecture:
+$$\lambda^3 - 6\lambda^2 + 11\lambda - 6 = 0$$ (12:31)."
+Can a calculator always be used to solve the characteristic polynomial?,"Yes, a scientific or graphing calculator is a highly effective tool for solving the **characteristic polynomial** once you have derived its coefficients from your matrix (11:37). 
+
+As demonstrated in the video, once you have your equation in the form $\lambda^3 - 6\lambda^2 + 11\lambda - 6 = 0$, you can input the coefficients directly into a calculator’s polynomial solver (often found in the mode or equation settings) to quickly extract the eigenvalues (11:42 - 12:29). 
+
+**Important Considerations:**
+* **Polynomial Degree:** The calculator must support the degree of your polynomial. For a 3x3 matrix, you are solving a cubic equation, so your calculator needs a cubic solver function (11:48).
+* **Matrix Limitations:** While a calculator can solve the final polynomial easily, you must manually perform the initial steps—calculating the determinant and constructing the characteristic equation—before the calculator can process the values (8:33).
+* **Complex Roots:** Depending on the matrix, some eigenvalues may be complex numbers. Ensure your calculator is set to handle complex or imaginary outputs if the polynomial does not have purely real roots.","The short answer is: **Yes, for most standard problems (like $2 \times 2$ and $3 \times 3$ matrices), you can use a calculator to solve the characteristic polynomial, but there are practical limits based on the size of the matrix.**
+
+Here is the breakdown of how this works based on your lecture and general practice:
+
+### 1. How to use the calculator (from the lecture)
+The lecturer shows that the calculator is used to find the roots of the **characteristic equation** after you have already set it up. 
+
+At **(06:13)**, the lecturer provides a shortcut formula for a $3 \times 3$ matrix to find the characteristic equation:
+$$\lambda^3 - (\text{sum of diagonal elements}) \lambda^2 + (\text{sum of diagonal minors}) \lambda - \text{det}(A) = 0$$
+
+Once you plug your numbers into this formula, you get a polynomial. At **(11:08)**, the lecturer demonstrates this specifically:
+*   They have the equation: $\lambda^3 - 6\lambda^2 + 11\lambda - 6 = 0$.
+*   They enter the coefficients ($1, -6, 11, -6$) into the calculator's ""Equation Mode"" (specifically mentioning pressing ""5"" then ""4"" to access the cubic equation solver).
+*   The calculator then provides the eigenvalues: $\lambda = 1, 3, 2$.
+
+### 2. When can you ""always"" use it?
+While the calculator is a powerful tool, there are two things to keep in mind regarding the word ""always"":
+
+*   **The ""Setup"" must be manual:** Most standard scientific calculators cannot ""look"" at a matrix and give you the eigenvalues directly. You must first do the work of finding the characteristic polynomial (the coefficients) yourself using the formula at **(06:13)** or by calculating $\det(A - \lambda I) = 0$.
+*   **Degree Limits:** Most standard scientific calculators can solve polynomials up to the 4th degree (quartic equations). This means they are perfect for $2 \times 2$ and $3 \times 3$ matrices. However, if you are dealing with a $5 \times 5$ matrix, the characteristic polynomial will be a 5th-degree equation. Many standard calculators cannot solve these, and you would need a graphing calculator or computer software (like MATLAB or Python) to find those roots.
+
+**Summary for your notes:**
+To use a calculator effectively, follow the lecturer's workflow:
+1.  Use the formula at **(06:13)** to find the coefficients of the characteristic polynomial.
+2.  Enter those coefficients into the calculator's equation solver (as shown at **11:08**).
+3.  The calculator gives you the eigenvalues ($\lambda$), which you then use to find the eigenvectors."
+Why do we need to calculate eigenvectors for each eigenvalue individually?,"Calculating eigenvectors individually for each eigenvalue is necessary because **an eigenvector is specific to its corresponding eigenvalue** (12:35). The process is defined by the equation $(A - \lambda I)X = 0$, where the matrix $(A - \lambda I)$ changes completely depending on which specific $\lambda$ (eigenvalue) you substitute into it (13:05, 16:51, 19:33).
+
+Here is why this separation is required:
+
+* **System Transformation:** When you plug a specific eigenvalue into the formula, it creates a unique system of linear equations (13:53). This system only yields the eigenvector(s) associated with that specific $\lambda$ (12:53).
+* **Unique Solutions:** Using a different eigenvalue results in an entirely different matrix structure, which leads to different coefficients for your variables ($x, y, z$). Consequently, you must solve the system from scratch for every eigenvalue found to identify the correct directional vector that satisfies the transformation (16:40, 20:06).
+* **Mathematical Consistency:** The set of equations derived for $\lambda = 1$ is distinct from those for $\lambda = 3$ or $\lambda = 2$. Treating them individually ensures you are finding the precise vector $X$ that maintains the equality $AX = \lambda X$ for each specific $\lambda$ (12:35).","This excerpt is directly relevant to your doubt. The lecturer introduces the fundamental equation at **(00:00)** and then explicitly states at **(12:06)** that you must take the eigenvalue values ""one by one"" to calculate the eigenvectors.
+
+### The Direct Answer
+You must calculate eigenvectors individually because **each eigenvalue corresponds to a different ""special direction"" of the matrix.** 
+
+An eigenvector is a vector that, when multiplied by the matrix $A$, does not change its direction; it only gets scaled by a factor (the eigenvalue $\lambda$). Because different eigenvalues represent different scaling factors, they usually correspond to different directions in space.
+
+### The Reasoning
+To understand why we have to do this step-by-step, let's look at the equation the lecturer uses:
+
+$$(A - \lambda I)X = 0 \quad \text{(00:00, 01:09)}$$
+
+In this equation:
+*   $A$ is your fixed matrix.
+*   $I$ is the identity matrix.
+*   $\lambda$ is the eigenvalue (a constant).
+*   $X$ is the eigenvector we are trying to find.
+
+**The key is that $\lambda$ is a variable in the characteristic equation.** When you solve for eigenvalues, you might find multiple distinct values (for example, $\lambda = 1$ and $\lambda = 3$). 
+
+When you plug $\lambda = 1$ into the equation $(A - \lambda I)X = 0$, you are creating a specific system of linear equations. The solution to *that* specific system gives you the eigenvector for $\lambda = 1$.
+
+When you then plug $\lambda = 3$ into the same equation, the values inside the matrix $(A - \lambda I)$ change completely. Because the matrix has changed, the solution $X$ will also change.
+
+### A Simple Example
+Imagine a matrix $A$ that stretches things horizontally by a factor of 2 and vertically by a factor of 5:
+$$A = \begin{pmatrix} 2 & 0 \\ 0 & 5 \end{pmatrix}$$
+
+1.  **For $\lambda = 2$:** The ""special direction"" is the horizontal axis. The eigenvector is $\begin{pmatrix} 1 \\ 0 \end{pmatrix}$.
+2.  **For $\lambda = 5$:** The ""special direction"" is the vertical axis. The eigenvector is $\begin{pmatrix} 0 \\ 1 \end{pmatrix}$.
+
+If you didn't calculate them individually, you wouldn't be able to distinguish which direction corresponds to which scaling factor. As the lecturer demonstrates starting at **(12:06)**, you must substitute each $\lambda$ one by one to ""unlock"" the specific eigenvector associated with that value."
+What does it mean if the lower terms result in zero during eigenvector calculation?,"When the lower terms in your system of equations result in zero during the calculation of an eigenvector (21:28-21:40), it indicates that the system is **linearly dependent** or has **redundant equations**. 
+
+In this scenario, simple methods like picking just two equations may not yield a unique or valid solution because the equations essentially collapse, providing no new information about the variables $x$, $y$, and $z$ (21:43-21:51).
+
+### How to handle this situation:
+* **Use all available equations:** Instead of relying on just two equations, you must incorporate all three equations derived from the matrix multiplication to maintain mathematical consistency (21:43-22:07).
+* **Solve by substitution:** Since the equations are dependent, you can express variables in terms of one another (e.g., $z = -x$) to find a relationship between $x, y$, and $z$ (22:21-23:18).
+* **Assign a value:** You can use a 'hit and trial' method by assigning a specific, non-zero value to one variable (e.g., set $y=1$) to solve for the others, allowing you to determine a valid eigenvector (24:04-24:30).","This excerpt is directly relevant to your doubt. The lecturer specifically addresses the situation where ""lower terms are getting zero"" during the eigenvector calculation at timestamp **[20:06]**.
+
+### What ""lower terms resulting in zero"" means
+When you are calculating an eigenvector, you are solving the equation $(A - \lambda I)\mathbf{v} = \mathbf{0}$. 
+
+The most important thing to understand is that **it is actually expected** that at least one row will become ""redundant"" (resulting in zeros) during this process. By definition, an eigenvalue $\lambda$ is a value that makes the determinant $|A - \lambda I| = 0$. A matrix with a determinant of zero is ""singular,"" which means its rows are linearly dependent. When you perform row reduction or elimination, this dependency manifests as a row of zeros.
+
+If you see these zeros, it doesn't mean you've made a mistake; it means you have fewer independent equations than variables. This is necessary because eigenvectors are not unique—they represent a direction, so there are infinitely many solutions.
+
+### How to handle it (using the lecture's example)
+When some rows become zero, you use the remaining non-zero equations to find the relationship between your variables ($x, y, z$).
+
+Let's look at the lecturer's example for $\lambda = 2$ (starting at **[19:45]**):
+
+1.  **The Setup:** The lecturer sets up the system $(A - 2I)\mathbf{v} = \mathbf{0}$.
+2.  **The Result:** During the calculation, the lecturer notes that some terms become zero. Specifically, they derive the relationships:
+    *   $y = 0$
+    *   $-x = z$ (which is the same as $x = -z$)
+3.  **The Solution:** Because we have a ""free"" variable (since one equation disappeared), we can assign a value to one variable to find the others. 
+    *   The lecturer chooses $y = 1$ (though in this specific case, since $y=0$, they actually use a trial method at **[24:08]**).
+    *   By picking a value for $z$, say $z = 2$, the relationship $x = -z$ tells us that $x = -2$.
+    *   This gives the eigenvector: $\begin{bmatrix} -2 \\ 0 \\ 2 \end{bmatrix}$.
+
+**Summary for your notes:**
+*   **Why it happens:** It happens because $|A - \lambda I| = 0$. If you *don't* get a row of zeros (or a redundant equation), your $\lambda$ value is likely incorrect.
+*   **What to do:** Use the remaining non-zero equations to express two variables in terms of the third. Then, pick a simple non-zero number for the third variable to get your final vector."
+How do we handle the situation where multiple equations become dependent?,"The speaker explains that when equations become **linearly dependent** or redundant—meaning the calculation results in zero across the board—you should **use all available equations** derived from the matrix (21:43-22:07). 
+
+To solve this:
+
+*   **Express variables in terms of each other:** Use the equations to find relationships between variables, such as $z = -x$ (22:21-22:42). 
+*   **Assign a value:** You can use a 'hit and trial' method by picking a simple non-zero value for one variable (e.g., set $y = 1$) to solve for the remaining unknown values of $x$ and $z$ (24:04-24:23).","This excerpt is highly relevant to your doubt, specifically the section between **[19:19]** and **[21:40]**, where the lecturer explains what to do when the system of equations becomes ""degenerate"" or has multiple dependent equations.
+
+### The Direct Answer
+When equations are dependent (meaning one equation is just a multiple of another, or they simplify to $0=0$), it means you have fewer ""unique"" pieces of information than you need to solve for all variables directly. In the context of finding eigenvectors, you handle this by **discarding the redundant equations and using the remaining unique equations to express your variables in terms of a ""free"" variable.**
+
+### Step-by-Step Explanation
+
+In an eigenvalue problem, we solve $(A - \lambda I)\mathbf{v} = \mathbf{0}$. Because we chose $\lambda$ specifically to make the determinant zero, we **always** expect at least one equation to be dependent. The problem you are asking about occurs when *more* than one equation is dependent.
+
+Here is how to handle it based on the lecturer's logic:
+
+**1. Identify the Redundancy**
+Look at the system of equations. If you see two equations that simplify to the same thing, they only count as one piece of information. 
+*   *Example from the lecture [21:40]:*
+    For $\lambda = 2$, the equations are:
+    1. $-x + 0y - z = 0 \implies x = -z$
+    2. $x + 0y + z = 0 \implies x = -z$
+    3. $2x + 2y + z = 0$
+
+    Here, Equation 1 and Equation 2 are identical. They are dependent.
+
+**2. Use the Unique Equations**
+Since Equation 1 and 2 both tell us $x = -z$, we treat that as our first ""fact."" We then move to the next unique equation (Equation 3) to find the relationship for $y$.
+
+**3. Solve for the variables**
+Substitute the ""fact"" from the dependent equations into the remaining unique equation:
+*   Take Equation 3: $2x + 2y + z = 0$
+*   Substitute $x = -z$ into it: $2(-z) + 2y + z = 0$
+*   Simplify: $-2z + 2y + z = 0 \implies 2y - z = 0$
+*   Solve for $y$: $y = \frac{z}{2}$
+
+**4. Express the Eigenvector**
+Now you have everything expressed in terms of $z$:
+*   $x = -z$
+*   $y = \frac{1}{2}z$
+*   $z = z$ (the free variable)
+
+To get a concrete vector, pick a simple value for $z$ (like $z=2$) to clear the fraction:
+*   $x = -2$
+*   $y = 1$
+*   $z = 2$
+*   **Eigenvector:** $\begin{bmatrix} -2 \\ 1 \\ 2 \end{bmatrix}$
+
+### Summary of the Rule
+As the lecturer notes at **[20:06]**, if the ""lower terms are getting zero"" (meaning the equations are collapsing into each other), you must use all the equations that provide *unique* information. If you have 3 variables and only 1 unique equation remains, you will have 2 free variables (the eigenvector will be a plane). If you have 3 variables and 2 unique equations remain, you will have 1 free variable (the eigenvector will be a line)."
+How can I verify if my calculated eigenvectors are correct?,"The speaker explains that you can verify your calculated eigenvectors by substituting the values back into the original equations. Specifically, once you have your eigenvector components ($x, y, z$), you can plug them into the system of equations formed by $(A - \lambda I)X = 0$ to see if they satisfy the requirement of equaling the null matrix (18:55 - 19:01).","Yes, the excerpt bears on your doubt. The lecturer briefly mentions at **[18:43]** that you can check your values by ""putting this value in this equation,"" referring to the fundamental definition of an eigenvector.
+
+### How to verify your eigenvectors
+To verify if a calculated eigenvector is correct, you must check if it satisfies the characteristic equation:
+$$AX = \lambda X$$
+
+In plain English: if you multiply the original matrix ($A$) by your calculated eigenvector ($X$), the result should be exactly the same as multiplying your eigenvalue ($\lambda$) by that same eigenvector.
+
+### Step-by-Step Verification
+To perform this check, follow these three steps:
+
+1.  **Identify your components:** Take the original matrix $A$, the eigenvalue $\lambda$ you found, and the eigenvector $X$ you calculated.
+2.  **Calculate $AX$:** Perform matrix multiplication.
+3.  **Calculate $\lambda X$:** Perform scalar multiplication (multiply every number in your eigenvector by the eigenvalue).
+4.  **Compare:** If $AX = \lambda X$, your eigenvector is correct.
+
+---
+
+### Worked Example
+Let's use the values from the lecture to verify the first eigenvector.
+
+**From the lecture:**
+*   **Matrix $A$** (from **[08:01]**): $\begin{bmatrix} 1 & 0 & -1 \\ 1 & 2 & 1 \\ 2 & 2 & 3 \end{bmatrix}$
+*   **Eigenvalue $\lambda$**: $1$ (from **[12:06]**)
+*   **Eigenvector $X$**: $\begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix}$ (from **[15:33]**)
+
+**Step 1: Calculate $AX$**
+$$\begin{bmatrix} 1 & 0 & -1 \\ 1 & 2 & 1 \\ 2 & 2 & 3 \end{bmatrix} \begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix} = \begin{bmatrix} (1)(1) + (0)(-1) + (-1)(0) \\ (1)(1) + (2)(-1) + (1)(0) \\ (2)(1) + (2)(-1) + (3)(0) \end{bmatrix} = \begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix}$$
+
+**Step 2: Calculate $\lambda X$**
+$$1 \times \begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix} = \begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix}$$
+
+**Conclusion:**
+Since both sides equal $\begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix}$, the eigenvector is verified as correct."
