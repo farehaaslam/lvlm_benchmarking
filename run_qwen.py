@@ -8,7 +8,7 @@ import pandas as pd
 
 from tqdm import tqdm
 from PIL import Image
-
+import time 
 from transformers import (
     Qwen3VLForConditionalGeneration,
     AutoProcessor,
@@ -19,7 +19,7 @@ from transformers import (
 # CONFIG
 # ============================================================
 
-MODEL_NAME = "Qwen/Qwen3-VL-32B-Instruct"
+MODEL_NAME = "Qwen/Qwen3-VL-8B-Instruct"
 
 DATASET_DIR = Path("dataset")
 
@@ -30,7 +30,7 @@ OUTPUT_DIR = DATASET_DIR / "output"
 # Exactly 64 frames from every video
 NUM_FRAMES = 64
 
-MAX_NEW_TOKENS = 512
+#MAX_NEW_TOKENS = 512
 
 QUESTION_COLUMN = "Questions"
 
@@ -46,7 +46,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # LOAD MODEL
 # ============================================================
 
-print("Loading Qwen3-VL-32B...")
+print("Loading Qwen3-VL-8B...")
 
 model = Qwen3VLForConditionalGeneration.from_pretrained(
     MODEL_NAME,
@@ -348,16 +348,18 @@ def process_video(video_path):
                     "content": [
                         {
                             "type": "video",
-                            "video": frames,
+                             "video":  str(video_path),
+                            # "sample_fps":1,
+                             "max_frames":64
+                            # "video":frames
                         },
                         {
                             "type": "text",
                             "text": (
                                 "Answer the following question "
-                                "using only the information "
+                                "using  the information "
                                 "available in the video.\n\n"
                                 f"Question: {question}\n\n"
-                                "Give a concise and direct answer."
                             ),
                         },
                     ],
@@ -367,6 +369,7 @@ def process_video(video_path):
             # =================================================
             # PROCESS INPUT
             # =================================================
+            t0 = time.time()
 
             inputs = processor.apply_chat_template(
                 messages,
@@ -375,6 +378,7 @@ def process_video(video_path):
                 return_dict=True,
                 return_tensors="pt",
             )
+            t1 = time.time()
 
             # -------------------------------------------------
             # Move tensors to model device
@@ -392,9 +396,15 @@ def process_video(video_path):
 
                 generated_ids = model.generate(
                     **inputs,
-                    max_new_tokens=MAX_NEW_TOKENS,
+                    #max_new_tokens=MAX_NEW_TOKENS,
                     do_sample=False,
                 )
+            t2 = time.time()    
+            print(
+            f"Processor: {t1 - t0:.2f}s | "
+            f"Generation: {t2 - t1:.2f}s | "
+            f"Total: {t2 - t0:.2f}s"
+            )
 
             # =================================================
             # REMOVE INPUT TOKENS
