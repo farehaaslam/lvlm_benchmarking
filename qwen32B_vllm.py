@@ -21,7 +21,6 @@ from vllm import LLM, SamplingParams
 # ============================================================
 
 MODEL_NAME = "Qwen/Qwen3-VL-32B-Instruct"
-
 DATASET_DIR = Path("dataset")
 
 VIDEO_DIR = DATASET_DIR / "videos"
@@ -47,7 +46,7 @@ NUM_FRAMES = 256
 # GENERATION CONFIG
 # ============================================================
 
-MAX_NEW_TOKENS = 512
+MAX_NEW_TOKENS = 2048
 
 QUESTION_COLUMN = "Questions"
 
