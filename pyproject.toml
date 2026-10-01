@@ -1,29 +1,27 @@
 [project]
 name = "lvlm-benchmarking"
 version = "0.1.0"
-description = "Add your description here"
+description = "Qwen3-VL-32B video QA with plain HF transformers (no vLLM)"
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 
+# Only what qwen32.py and the dataset download scripts need.
 dependencies = [
-    "vllm==0.30.0",
     "torch==2.13.0",
+    # Qwen3-VL video processor resizes frames with torchvision
     "torchvision==0.28.0",
-    "torchaudio==2.11.0",
     "transformers>=5.10.4",
+    # device_map="auto"
     "accelerate",
+    # video frame decoding in qwen32.py
     "decord>=0.6.0",
-    "torchcodec>=0.14",
+    # download_dataset.py / download_video.py
     "gdown>=6.4.0",
-    # headless: vLLM already pulls this one; the GUI build would clash with
-    # it and needs libGL, which vast.ai images usually don't have
-    "opencv-python-headless",
     "pandas",
-    "tqdm",
 ]
 
 [tool.uv]
-# Only resolve for Linux x86_64 (the vLLM CUDA 12.9 wheel is x86_64-only)
+# Only resolve for Linux x86_64 (the GPU instance)
 environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
 
 # Driver supports up to CUDA 12.9 -> use cu129 builds, not the default CUDA 13 ones
@@ -35,5 +33,3 @@ explicit = true
 [tool.uv.sources]
 torch = { index = "pytorch-cu129" }
 torchvision = { index = "pytorch-cu129" }
-torchaudio = { index = "pytorch-cu129" }
-vllm = { url = "https://github.com/vllm-project/vllm/releases/download/v0.30.0/vllm-0.30.0%2Bcu129-cp38-abi3-manylinux_2_28_x86_64.whl" }
