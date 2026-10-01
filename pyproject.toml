@@ -15,7 +15,9 @@ dependencies = [
     "decord>=0.6.0",
     "torchcodec>=0.14",
     "gdown>=6.4.0",
-    "opencv-python",
+    # headless: vLLM already pulls this one; the GUI build would clash with
+    # it and needs libGL, which vast.ai images usually don't have
+    "opencv-python-headless",
     "pandas",
     "tqdm",
 ]

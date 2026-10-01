@@ -52,7 +52,7 @@ print("=" * 70)
 # SHOW DOWNLOADED FILES
 # ============================================================
 
-questions = sorted(OUTPUT_DIR.glob("*.txt"))
+questions = sorted(OUTPUT_DIR.glob("*.csv"))
 
 print(f"\nQuestions found: {len(questions)}")
 
