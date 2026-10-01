@@ -1,14 +1,12 @@
+
 import gc
+import time
 from pathlib import Path
 
-import cv2
-import numpy as np
 import torch
 import pandas as pd
 
 from tqdm import tqdm
-from PIL import Image
-import time 
 from transformers import (
     Qwen3VLForConditionalGeneration,
     AutoProcessor,
@@ -19,7 +17,7 @@ from transformers import (
 # CONFIG
 # ============================================================
 
-MODEL_NAME = "Qwen/Qwen3-VL-8B-Instruct"
+MODEL_NAME = "Qwen/Qwen3-VL-32B-Instruct"
 
 DATASET_DIR = Path("dataset")
 
@@ -27,12 +25,17 @@ VIDEO_DIR = DATASET_DIR / "videos"
 QUESTION_DIR = DATASET_DIR / "questions"
 OUTPUT_DIR = DATASET_DIR / "output"
 
-# Exactly 64 frames from every video
-NUM_FRAMES = 64
+# Video sampling
+NUM_FRAMES = 256
 
-#MAX_NEW_TOKENS = 512
+# Maximum generated tokens
+MAX_NEW_TOKENS = 2048
 
+# Question CSV column
 QUESTION_COLUMN = "Questions"
+
+# Supported video extensions
+VIDEO_EXTENSIONS = ["*.mp4", "*.mkv", "*.avi", "*.mov", "*.webm"]
 
 
 # ============================================================
@@ -43,126 +46,93 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ============================================================
+# GPU INFORMATION
+# ============================================================
+
+print("=" * 70)
+print("GPU INFORMATION")
+print("=" * 70)
+
+if not torch.cuda.is_available():
+    raise RuntimeError("CUDA is not available.")
+
+print(f"Number of GPUs: {torch.cuda.device_count()}")
+
+for i in range(torch.cuda.device_count()):
+
+    props = torch.cuda.get_device_properties(i)
+
+    print(
+        f"GPU {i}: {props.name} | "
+        f"{props.total_memory / 1024**3:.2f} GB"
+    )
+
+
+# ============================================================
 # LOAD MODEL
 # ============================================================
 
-print("Loading Qwen3-VL-8B...")
+print("\nLoading Qwen3-VL-32B-Instruct...")
 
 model = Qwen3VLForConditionalGeneration.from_pretrained(
     MODEL_NAME,
-    torch_dtype="auto",
+    torch_dtype=torch.bfloat16,
     device_map="auto",
+    low_cpu_mem_usage=True,
 )
 
 processor = AutoProcessor.from_pretrained(
     MODEL_NAME
 )
 
-print("Model loaded.")
+model.eval()
+
+print("Model loaded successfully.")
+
+
+# ============================================================
+# GPU MEMORY MONITOR
+# ============================================================
+
+def print_gpu_memory():
+
+    for i in range(torch.cuda.device_count()):
+
+        allocated = (
+            torch.cuda.memory_allocated(i) / 1024**3
+        )
+
+        reserved = (
+            torch.cuda.memory_reserved(i) / 1024**3
+        )
+
+        peak = (
+            torch.cuda.max_memory_allocated(i) / 1024**3
+        )
+
+        print(
+            f"GPU {i}: "
+            f"Allocated={allocated:.2f} GB | "
+            f"Reserved={reserved:.2f} GB | "
+            f"Peak={peak:.2f} GB"
+        )
 
 
 # ============================================================
 # FIND VIDEOS
 # ============================================================
 
+videos = []
+
+for extension in VIDEO_EXTENSIONS:
+    videos.extend(VIDEO_DIR.glob(extension))
+
 videos = sorted(
-    VIDEO_DIR.glob("*.mp4"),
+    videos,
     key=lambda x: x.name
 )
 
-print(f"Found {len(videos)} videos.")
-
-
-# # ============================================================
-# # UNIFORMLY SAMPLE 64 FRAMES
-# # ============================================================
-
-# def sample_video_frames(video_path, num_frames=64):
-
-#     print(f"\nSampling {num_frames} frames from:")
-#     print(video_path)
-
-#     cap = cv2.VideoCapture(str(video_path))
-
-#     if not cap.isOpened():
-#         raise RuntimeError(
-#             f"Could not open video: {video_path}"
-#         )
-
-#     total_frames = int(
-#         cap.get(cv2.CAP_PROP_FRAME_COUNT)
-#     )
-
-#     if total_frames <= 0:
-#         cap.release()
-#         raise RuntimeError(
-#             f"Could not determine frame count: {video_path}"
-#         )
-
-#     # --------------------------------------------------------
-#     # Uniformly select frame indices
-#     # --------------------------------------------------------
-
-#     frame_indices = np.linspace(
-#         0,
-#         total_frames - 1,
-#         num_frames,
-#         dtype=np.int64,
-#     )
-
-#     frames = []
-
-#     # --------------------------------------------------------
-#     # Read selected frames
-#     # --------------------------------------------------------
-
-#     for frame_idx in tqdm(
-#         frame_indices,
-#         desc="Sampling frames",
-#         leave=False,
-#     ):
-
-#         cap.set(
-#             cv2.CAP_PROP_POS_FRAMES,
-#             int(frame_idx)
-#         )
-
-#         success, frame = cap.read()
-
-#         if not success:
-#             print(
-#                 f"[WARNING] Could not read frame "
-#                 f"{frame_idx}"
-#             )
-#             continue
-
-#         # OpenCV: BGR
-#         # Qwen/PIL: RGB
-
-#         frame = cv2.cvtColor(
-#             frame,
-#             cv2.COLOR_BGR2RGB
-#         )
-
-#         # Convert to PIL
-#         frame = Image.fromarray(frame)
-
-#         frames.append(frame)
-
-#     cap.release()
-
-#     if len(frames) == 0:
-#         raise RuntimeError(
-#             f"No frames could be extracted from "
-#             f"{video_path}"
-#         )
-
-#     print(
-#         f"Successfully sampled "
-#         f"{len(frames)}/{num_frames} frames."
-#     )
-
-#     return frames
+print(f"\nFound {len(videos)} videos.")
 
 
 # ============================================================
@@ -231,7 +201,7 @@ def process_video(video_path):
             f"{len(output_df)} rows"
         )
 
-        # Make sure output has correct columns
+        # Validate existing output
         if (
             "question" not in output_df.columns
             or "answer" not in output_df.columns
@@ -239,7 +209,7 @@ def process_video(video_path):
 
             print(
                 "[WARNING] Existing output has "
-                "incorrect columns."
+                "incorrect columns. Reinitializing."
             )
 
             output_df = pd.DataFrame({
@@ -252,21 +222,31 @@ def process_video(video_path):
 
         else:
 
-            # Make absolutely sure only these
-            # two columns are retained.
-
+            # Retain only expected columns
             output_df = output_df[
                 ["question", "answer"]
             ]
 
-    else:
+            # Ensure output has the same number of rows
+            # as the question CSV.
+            if len(output_df) != len(questions_df):
 
-        # ----------------------------------------------------
-        # Output contains ONLY:
-        #
-        # question
-        # answer
-        # ----------------------------------------------------
+                print(
+                    "[WARNING] Output row count differs "
+                    "from question CSV."
+                )
+
+                print("Reinitializing output.")
+
+                output_df = pd.DataFrame({
+                    "question": questions_df[
+                        QUESTION_COLUMN
+                    ].astype(str),
+
+                    "answer": ""
+                })
+
+    else:
 
         output_df = pd.DataFrame({
             "question": questions_df[
@@ -275,31 +255,6 @@ def process_video(video_path):
 
             "answer": ""
         })
-
-    # ========================================================
-    # SAMPLE VIDEO ONCE
-    # ========================================================
-
-    # try:
-
-    #     frames = sample_video_frames(
-    #         video_path,
-    #         NUM_FRAMES
-    #     )
-
-    # except Exception as e:
-
-    #     print(
-    #         f"[ERROR] Failed to sample video: "
-    #         f"{repr(e)}"
-    #     )
-
-    #     return
-
-    # print(
-    #     f"Using {len(frames)} frames "
-    #     f"for ALL questions in {video_name}"
-    # )
 
     # ========================================================
     # PROCESS QUESTIONS
@@ -311,7 +266,7 @@ def process_video(video_path):
     ):
 
         # ----------------------------------------------------
-        # Resume support
+        # RESUME SUPPORT
         # ----------------------------------------------------
 
         existing_answer = (
@@ -326,7 +281,7 @@ def process_video(video_path):
             continue
 
         # ----------------------------------------------------
-        # Get question
+        # GET QUESTION
         # ----------------------------------------------------
 
         question = str(
@@ -335,6 +290,12 @@ def process_video(video_path):
                 QUESTION_COLUMN
             ]
         )
+
+        print(f"\nQuestion {idx + 1}: {question}")
+
+        inputs = None
+        generated_ids = None
+        generated_ids_trimmed = None
 
         try:
 
@@ -348,18 +309,24 @@ def process_video(video_path):
                     "content": [
                         {
                             "type": "video",
-                             "video":  str(video_path),
-                            # "sample_fps":1,
-                             "max_frames":64
-                            # "video":frames
+
+                            # Local video path
+                            "video": str(video_path),
+
+                            # Request 256 sampled frames
+                            "nframes": NUM_FRAMES,
+
+                            # Video resolution controls
+                            # can be added here if needed
                         },
                         {
                             "type": "text",
                             "text": (
                                 "Answer the following question "
-                                "using  the information "
-                                "available in the video.\n\n"
+                                "using the information available "
+                                "in the video.\n\n"
                                 f"Question: {question}\n\n"
+                                "Provide a clear and accurate answer."
                             ),
                         },
                     ],
@@ -369,6 +336,9 @@ def process_video(video_path):
             # =================================================
             # PROCESS INPUT
             # =================================================
+
+            torch.cuda.reset_peak_memory_stats()
+
             t0 = time.time()
 
             inputs = processor.apply_chat_template(
@@ -378,10 +348,15 @@ def process_video(video_path):
                 return_dict=True,
                 return_tensors="pt",
             )
+
             t1 = time.time()
 
+            print(
+                f"Processor: {t1 - t0:.2f}s"
+            )
+
             # -------------------------------------------------
-            # Move tensors to model device
+            # MOVE INPUTS
             # -------------------------------------------------
 
             inputs = inputs.to(
@@ -392,18 +367,27 @@ def process_video(video_path):
             # GENERATE
             # =================================================
 
+            generation_start = time.time()
+
             with torch.inference_mode():
 
                 generated_ids = model.generate(
                     **inputs,
-                    #max_new_tokens=MAX_NEW_TOKENS,
+                    max_new_tokens=MAX_NEW_TOKENS,
                     do_sample=False,
+                    use_cache=True,
                 )
-            t2 = time.time()    
+
+            generation_end = time.time()
+
             print(
-            f"Processor: {t1 - t0:.2f}s | "
-            f"Generation: {t2 - t1:.2f}s | "
-            f"Total: {t2 - t0:.2f}s"
+                f"Generation: "
+                f"{generation_end - generation_start:.2f}s"
+            )
+
+            print(
+                f"Total: "
+                f"{generation_end - t0:.2f}s"
             )
 
             # =================================================
@@ -412,8 +396,7 @@ def process_video(video_path):
 
             generated_ids_trimmed = [
                 out_ids[len(in_ids):]
-                for in_ids, out_ids
-                in zip(
+                for in_ids, out_ids in zip(
                     inputs.input_ids,
                     generated_ids,
                 )
@@ -429,6 +412,9 @@ def process_video(video_path):
                 clean_up_tokenization_spaces=False,
             )[0].strip()
 
+            print("\nANSWER:")
+            print(answer)
+
             # =================================================
             # SAVE ANSWER
             # =================================================
@@ -443,6 +429,14 @@ def process_video(video_path):
                 output_file,
                 index=False,
             )
+
+            print(f"Saved: {output_file}")
+
+            # -------------------------------------------------
+            # MEMORY INFORMATION
+            # -------------------------------------------------
+
+            print_gpu_memory()
 
         except Exception as e:
 
@@ -460,21 +454,22 @@ def process_video(video_path):
                 index=False,
             )
 
+            # Continue with next question
             continue
 
         finally:
 
             # ------------------------------------------------
-            # Release Qwen tensors
+            # RELEASE TENSORS
             # ------------------------------------------------
 
-            if "inputs" in locals():
+            if inputs is not None:
                 del inputs
 
-            if "generated_ids" in locals():
+            if generated_ids is not None:
                 del generated_ids
 
-            if "generated_ids_trimmed" in locals():
+            if generated_ids_trimmed is not None:
                 del generated_ids_trimmed
 
             if "messages" in locals():
@@ -495,17 +490,6 @@ def process_video(video_path):
         output_file,
         index=False,
     )
-
-    # ========================================================
-    # RELEASE VIDEO FRAMES
-    # ========================================================
-
-    del frames
-
-    gc.collect()
-
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()
 
     print(
         f"\nCompleted: {video_name}"
@@ -532,3 +516,5 @@ for video_path in videos:
 print("\n" + "=" * 70)
 print("ALL VIDEOS COMPLETED")
 print("=" * 70)
+
+print_gpu_memory()
