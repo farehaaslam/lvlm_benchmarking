@@ -3,15 +3,35 @@ name = "lvlm-benchmarking"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
+
 dependencies = [
-    "accelerate>=1.15.0",
+    "vllm==0.30.0",
+    "torch==2.13.0",
+    "torchvision==0.28.0",
+    "torchaudio==2.11.0",
+    "transformers>=5.10.4",
+    "accelerate",
     "decord>=0.6.0",
+    "torchcodec>=0.14",
     "gdown>=6.4.0",
-    "opencv-python>=5.0.0.93",
-    "pandas>=3.0.6",
-    "torch>=2.14.0",
-    "torchvision>=0.29.0",
-    "tqdm>=4.70.1",
-    "transformers>=5.17.0",
+    "opencv-python",
+    "pandas",
+    "tqdm",
 ]
+
+[tool.uv]
+# Only resolve for Linux x86_64 (the vLLM CUDA 12.9 wheel is x86_64-only)
+environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
+
+# Driver supports up to CUDA 12.9 -> use cu129 builds, not the default CUDA 13 ones
+[[tool.uv.index]]
+name = "pytorch-cu129"
+url = "https://download.pytorch.org/whl/cu129"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu129" }
+torchvision = { index = "pytorch-cu129" }
+torchaudio = { index = "pytorch-cu129" }
+vllm = { url = "https://github.com/vllm-project/vllm/releases/download/v0.30.0/vllm-0.30.0%2Bcu129-cp38-abi3-manylinux_2_28_x86_64.whl" }

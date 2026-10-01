@@ -7,8 +7,7 @@ import gdown
 # ============================================================
 
 # Google Drive folder URL
-DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1w3zOU84z9pUVQbhDU9ihZBNBwrlZQVaY"
-#https://drive.google.com/drive/folders/1w3zOU84z9pUVQbhDU9ihZBNBwrlZQVaY
+DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1w3zOU84z9pUVQbhDU9ihZBNBwrlZQVaY?usp=drive_link"
 
 # Local destination
 OUTPUT_DIR = Path("dataset/videos")
