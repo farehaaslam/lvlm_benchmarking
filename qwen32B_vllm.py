@@ -14,7 +14,13 @@ import pandas as pd
 
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
-from vllm.multimodal.video import VideoBackend
+
+try:
+    # vLLM >= 0.2x: uniform-sampling loader ("opencv")
+    from vllm.multimodal.video import VideoBackend as UniformVideoLoader
+except ImportError:
+    # older vLLM (0.11 - 0.1x)
+    from vllm.multimodal.video import OpenCVVideoBackend as UniformVideoLoader
 
 # rclone copy gdrive:gurrt/gurrt_dataset/videos /workspace/lvlm_benchmarking/dataset/videos
 # to run this script (uses every visible GPU, tensor parallel auto-picked):
@@ -200,10 +206,13 @@ def decode_video(video_path):
 
     t0 = time.time()
 
-    frames, metadata = VideoBackend.load_bytes(
+    # Older vLLM versions have no `backend` argument (always OpenCV).
+    extra = {} if DECODE_BACKEND == "opencv" else {"backend": DECODE_BACKEND}
+
+    frames, metadata = UniformVideoLoader.load_bytes(
         video_path.read_bytes(),
         num_frames=NUM_FRAMES,
-        backend=DECODE_BACKEND,
+        **extra,
     )
 
     # Frames are already sampled here; the HF processor must not
