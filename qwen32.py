@@ -1,4 +1,5 @@
 import argparse
+import subprocess
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -9,6 +10,7 @@ import torch
 import torch.nn.functional as F
 
 from decord import VideoReader, cpu
+from decord._ffi.base import DECORDError
 from transformers import (
     AttentionInterface,
     AttentionMaskInterface,
@@ -245,6 +247,42 @@ def load_output(question_file, output_file):
     return questions_df, output_df
 
 
+def ffmpeg_frames(video_path, indices, fps, width, height):
+    """Grab single frames with the system ffmpeg (accurate input seeking).
+
+    Fallback for videos decord cannot seek in (VP9 in MP4 fails with
+    "threaded_decoder.cc:104: Check failed: run_.load()").
+    """
+
+    frame_bytes = width * height * 3
+
+    def grab(index):
+
+        out = subprocess.run(
+            [
+                "ffmpeg", "-v", "error", "-nostdin", "-threads", "2",
+                "-ss", f"{index / fps:.6f}", "-i", str(video_path),
+                "-map", "0:v:0", "-frames:v", "1",
+                "-s", f"{width}x{height}",
+                "-f", "rawvideo", "-pix_fmt", "rgb24", "pipe:1",
+            ],
+            capture_output=True,
+            check=True,
+        ).stdout
+
+        # Seeking past the last decodable frame returns nothing; step back.
+        if len(out) < frame_bytes and index > 0:
+            return grab(max(index - int(round(fps)), 0))
+
+        if len(out) < frame_bytes:
+            raise RuntimeError(f"ffmpeg returned no frame at index {index} of {video_path}")
+
+        return np.frombuffer(out[:frame_bytes], dtype=np.uint8).reshape(height, width, 3)
+
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        return np.stack(list(pool.map(grab, indices)))
+
+
 def decode_video(video_path):
     """Decode NUM_FRAMES uniformly spaced frames once per video."""
 
@@ -254,10 +292,18 @@ def decode_video(video_path):
 
     total = len(reader)
     fps = float(reader.get_avg_fps())
+    height, width = reader[0].shape[:2]
 
     indices = np.linspace(0, total - 1, min(NUM_FRAMES, total)).round().astype(int)
 
-    frames = reader.get_batch(indices.tolist()).asnumpy()
+    backend = "decord"
+
+    try:
+        frames = reader.get_batch(indices.tolist()).asnumpy()
+    except DECORDError as e:
+        print(f"[WARNING] decord failed on {video_path.name} ({e!r:.80}); using ffmpeg")
+        backend = "ffmpeg"
+        frames = ffmpeg_frames(video_path, indices.tolist(), fps, width, height)
 
     metadata = VideoMetadata(
         total_num_frames=total,
@@ -265,7 +311,7 @@ def decode_video(video_path):
         width=frames.shape[2],
         height=frames.shape[1],
         duration=total / fps,
-        video_backend="decord",
+        video_backend=backend,
         frames_indices=indices.tolist(),
     )
 
