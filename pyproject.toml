@@ -20,6 +20,7 @@ dependencies = [
     "opencv-python-headless",
     "pandas",
     "tqdm",
+    "pyarrow>=25.0.1",
 ]
 
 [tool.uv]
@@ -36,4 +37,5 @@ explicit = true
 torch = { index = "pytorch-cu129" }
 torchvision = { index = "pytorch-cu129" }
 torchaudio = { index = "pytorch-cu129" }
+torchcodec = { index = "pytorch-cu129" }
 vllm = { url = "https://github.com/vllm-project/vllm/releases/download/v0.30.0/vllm-0.30.0%2Bcu129-cp38-abi3-manylinux_2_28_x86_64.whl" }

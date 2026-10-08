@@ -32,6 +32,9 @@ import os
 
 # vLLM workers must be spawned, not forked (set before vLLM is imported)
 os.environ.setdefault("VLLM_WORKER_MULTIPROC_METHOD", "spawn")
+# FlashInfer JIT-compiles its top-k/top-p sampler with the system nvcc (/usr/local/cuda = 12.8 here), which
+# can't target RTX 5090 (SM 12.0 needs >= 12.9) -> "FlashInfer requires GPUs with sm75". Use vLLM's torch sampler.
+os.environ.setdefault("VLLM_USE_FLASHINFER_SAMPLER", "0")
 
 # ============================ CONFIG: EDIT THESE ============================
 REPO_DIR       = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -56,14 +59,32 @@ SAMPLING = dict(temperature=1.0, top_p=0.95, top_k=20, min_p=0.0, presence_penal
 # Gemma 4 thinking delimiters (vllm/reasoning/gemma4_utils.py)
 THINK_START, THINK_END = "<|channel>", "<channel|>"
 
-import argparse, base64, io, json, time
+import argparse, base64, io, json, time, traceback
 
 import pandas as pd
 from vllm import LLM, SamplingParams
 from vllm.config import ReasoningConfig
 
+from vllm.multimodal.media.connector import MediaConnector
+
 import videommmu_official as vm
 from native_sampling import TRACKS, build_video_index, load_image, load_questions, natural_key, summarize
+
+
+# vLLM decodes the video separately for each of a video's 3 questions (~5-10 s of CPU each, the GPU idles
+# meanwhile). Decode once per URL and reuse; run_batch clears the cache so host RAM stays bounded to one batch.
+_video_cache = {}
+_fetch_video = MediaConnector.fetch_video
+
+
+def _cached_fetch_video(self, video_url, **kwargs):
+    key = (video_url, repr(sorted(kwargs.items())))     # repr: vLLM passes video_processor as a dict
+    if key not in _video_cache:
+        _video_cache[key] = _fetch_video(self, video_url, **kwargs)
+    return _video_cache[key]
+
+
+MediaConnector.fetch_video = _cached_fetch_video
 
 
 def image_data_url(img):
@@ -105,7 +126,10 @@ def run_batch(llm, params, batch, by_id, vid_index, out_dir):
             convs.append(conv)
             meta.append((vid, track, used_image))
 
-    outs = llm.chat(convs, params, use_tqdm=True, chat_template_kwargs={"enable_thinking": True})
+    try:
+        outs = llm.chat(convs, params, use_tqdm=True, chat_template_kwargs={"enable_thinking": True})
+    finally:
+        _video_cache.clear()
 
     rows = {}
     for (vid, track, used_image), out in zip(meta, outs):
@@ -171,7 +195,9 @@ def main():
         gpu_memory_utilization=GPU_MEMORY_UTILIZATION,
         enable_prefix_caching=True,                     # the 3 questions of a video share the video prefix
         limit_mm_per_prompt={"video": 1, "image": 1},
-        media_io_kwargs={"video": {"num_frames": a.frames}},
+        # explicit backend (= vLLM's default) skips vLLM 0.30's per-processor backend lookup, which crashes
+        # with "unhashable type: 'dict'" because Gemma 4's processor_config nests video_processor as a dict
+        media_io_kwargs={"video": {"num_frames": a.frames, "video_backend": "opencv"}},
         allowed_local_media_path=os.path.abspath(a.video_dir),
         # thinking budget: after REASONING_BUDGET thought tokens, force the budget message and close the thought
         reasoning_config=ReasoningConfig(
@@ -199,6 +225,7 @@ def main():
                     run_batch(llm, params, [vid], by_id, vid_index, a.out_dir)
                 except Exception as e2:
                     failed.append(vid)
+                    traceback.print_exc()
                     print(f"{vid}: NOT SAVED ({type(e2).__name__}: {e2}) - retried on next run", flush=True)
         el = (time.time() - t0) / 60
         print(f"--- batch {b}/{len(batches)} done, {el:.1f} min elapsed, ~{el / b * (len(batches) - b):.0f} min left",
