@@ -41,7 +41,10 @@ OUT_DIR        = f"{REPO_DIR}/results/videommmu_gemma4_12b_vllm"
 MODEL_ID       = "google/gemma-4-12B-it"
 NUM_FRAMES     = 32                           # frames vLLM decodes from each video
 VIDEOS_PER_BATCH = 16                         # 16 videos x 3 questions per generate call (bounds host RAM)
-GPU_MEMORY_UTILIZATION = 0.92
+GPU_MEMORY_UTILIZATION = 0.95
+# KV cache in fp8, like llama_inference.py's --cache-type-k/v q8_0. Weights stay BF16. Halves KV memory,
+# which a 32 GB card needs: ~24 GB goes to the BF16 weights.
+KV_CACHE_DTYPE = "fp8"
 LIMIT_VIDEOS   = 0
 # ============================================================================
 
@@ -137,7 +140,10 @@ def main():
     ap.add_argument("--tp", type=int, default=1, help="tensor parallel size (2 for BF16 on 24 GB cards)")
     ap.add_argument("--frames", type=int, default=NUM_FRAMES)
     ap.add_argument("--videos_per_batch", type=int, default=VIDEOS_PER_BATCH)
-    ap.add_argument("--max_model_len", type=int, default=MAX_MODEL_LEN)
+    ap.add_argument("--max_model_len", type=int, default=MAX_MODEL_LEN,
+                    help="prompt + output tokens; lower (e.g. 32768) if the KV cache still does not fit")
+    ap.add_argument("--kv_cache_dtype", default=KV_CACHE_DTYPE, help="fp8 or auto (= bf16)")
+    ap.add_argument("--gpu_mem", type=float, default=GPU_MEMORY_UTILIZATION)
     ap.add_argument("--limit_videos", type=int, default=LIMIT_VIDEOS)
     ap.add_argument("--shard_id", type=int, default=0)
     ap.add_argument("--num_shards", type=int, default=1)
@@ -168,7 +174,11 @@ def main():
         dtype="bfloat16",
         tensor_parallel_size=a.tp,
         max_model_len=a.max_model_len,
-        gpu_memory_utilization=GPU_MEMORY_UTILIZATION,
+        gpu_memory_utilization=a.gpu_mem,
+        kv_cache_dtype=a.kv_cache_dtype,
+        # one batch is videos_per_batch x 3 requests; the default 256 sequences would reserve sampler memory
+        # for Gemma's 262k vocab that the KV cache needs
+        max_num_seqs=a.videos_per_batch * len(TRACKS),
         enable_prefix_caching=True,                     # the 3 questions of a video share the video prefix
         limit_mm_per_prompt={"video": 1, "image": 1},
         media_io_kwargs={"video": {"num_frames": a.frames}},
