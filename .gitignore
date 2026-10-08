@@ -10,3 +10,4 @@ wheels/
 .venv
 dataset/
 .ipynb_checkpoints
+logs
