@@ -10,3 +10,7 @@ wheels/
 .venv
 dataset/
 .ipynb_checkpoints
+
+# run outputs
+results/
+video_mmmu_gemma/logs/*.log
